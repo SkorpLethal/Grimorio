@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Grimorio.BLL\Grimorio.BLL.csproj" />
+    <ProjectReference Include="..\Grimorio.DAL\Grimorio.DAL.csproj" />
+    <ProjectReference Include="..\Grimorio.Utility\Grimorio.Utility.csproj" />
+  </ItemGroup>
+
+</Project>
