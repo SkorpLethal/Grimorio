@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Grimorio.DAL.Repositorios.Contrato;
+using Grimorio.DAL.Repositorios;
 
 namespace Grimorio.IOC
 {
@@ -13,6 +15,9 @@ namespace Grimorio.IOC
             servicios.AddDbContext<GrimorioDbContext>(options => {
                 options.UseSqlServer(configuracion.GetConnectionString("GrimorioDiablillo"));
             });
+
+            servicios.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            servicios.AddScoped<IVentaRepository, VentaRepository>();
         }
     }
 }
