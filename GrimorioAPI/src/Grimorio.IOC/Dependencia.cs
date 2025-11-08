@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Grimorio.DAL.Repositorios.Contrato;
 using Grimorio.DAL.Repositorios;
+using Grimorio.Utility;
 
 namespace Grimorio.IOC
 {
@@ -18,6 +19,8 @@ namespace Grimorio.IOC
 
             servicios.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             servicios.AddScoped<IVentaRepository, VentaRepository>();
+
+            servicios.AddAutoMapper(typeof(AutoMapperProfile));
         }
     }
 }
