@@ -1,5 +1,7 @@
 ﻿using Grimorio.BLL.Servicios.Contrato;
+using Grimorio.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Grimorio.API.Utilidad;
 
 namespace Grimorio.API.Controllers
 {
@@ -7,17 +9,28 @@ namespace Grimorio.API.Controllers
     [ApiController]
     public class RolesController : ControllerBase
     {
-        private readonly IRolService _servicio;
+        private readonly IRolService _rolServicio;
 
         public RolesController(IRolService servicio)
         {
-            _servicio = servicio;
+            _rolServicio = servicio;
         }
     [HttpGet]
     public async Task<IActionResult> Lista()
         {
-           var roles = await _servicio.Lista();
-            return Ok(roles);
+            var response = new Response<List<RolDTO>>();
+
+            try
+            {
+                response.status = true;
+                response.value = await _rolServicio.Lista();
+
+            }
+            catch (Exception ex) { 
+                response.status = false;
+                response.msg = ex.Message;
+            }
+            return Ok(response);
         }
     }
 }

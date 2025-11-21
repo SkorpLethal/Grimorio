@@ -23,9 +23,13 @@ namespace Grimorio.IOC
 
             servicios.AddAutoMapper(typeof(AutoMapperProfile));
 
+            servicios.AddScoped<ICartaService, CartaService>();
+            servicios.AddScoped<IDashBoardService, DashBoardService>();
+            servicios.AddScoped<IMenuService, MenuService>();
             servicios.AddScoped<IRolService, RolService>();
-
-            servicios.AddScoped<IRolService, IRolService>();
+            servicios.AddScoped<ISetService, SetService>();
+            servicios.AddScoped<IUsuarioService, UsuarioService>();
+            servicios.AddScoped<IVentaService, VentaService>();         
         }
     }
 }

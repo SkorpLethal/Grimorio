@@ -18,8 +18,6 @@ namespace Grimorio.DTO
 
         public string? DescripcionRol { get; set; }
 
-        public string? Clave { get; set; }
-
         public bool? EsActivo { get; set; }
     }
 }
