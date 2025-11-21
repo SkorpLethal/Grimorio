@@ -10,8 +10,10 @@ namespace Grimorio.DTO
     {
         public decimal TotalVentas { get; set; }
 
-        public decimal TotalIngreos { get; set; }
+        public decimal TotalIngresos { get; set; }
 
-        public List<VentaSemanaDTO> Ventas { get; set; }
+        public int TotalCartas { get; set; }
+
+        public List<VentaSemanaDTO> VentasUltimaSemana { get; set; }
     }
 }
