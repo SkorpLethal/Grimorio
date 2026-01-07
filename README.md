@@ -11,7 +11,7 @@ El sistema está desarrollado con **ASP.NET Core 8 (API REST)** y un **frontend 
 - **ASP.NET Core 8** (C#)
 - **Entity Framework Core** con enfoque **Database First**
 - **SQL Server Express (SQLEXPRESS)** como base de datos
-- **JWT (JSON Web Tokens)** para autenticación y autorización
+- **JWT (JSON Web Tokens)** para autenticación y autorización (si me da tiempo).
 - **Automapper** (para mapeo entre entidades y DTOs)
 - **Dependency Injection (IoC)** nativa de .NET
 
@@ -19,7 +19,7 @@ El sistema está desarrollado con **ASP.NET Core 8 (API REST)** y un **frontend 
 - **Angular 20**
 - **TypeScript**
 - **Bootstrap**
-- **JWT Auth Interceptor**
+- **JWT Auth Interceptor (si me da tiempo)**
 - **Consumo de la API REST de Grimorio**
 
 ---
@@ -46,10 +46,6 @@ Esta estructura facilita la mantenibilidad, la escalabilidad y el testeo de los 
 │   ├── Grimorio.DAL        → Acceso a datos, repositorios, EF Core (Database First)
 │   ├── Grimorio.IOC        → Configuración de inyección de dependencias
 │   └── Grimorio.Utility    → Utilidades, helpers, extensiones comunes
-│
-└── 5 - Pruebas/
-    └── Grimorio.Test       → Proyecto de pruebas unitarias
-```
 
 ---
 
@@ -66,7 +62,7 @@ El contexto generado se encuentra dentro del proyecto **Grimorio.DAL**.
 
 ---
 
-## 🔐 Seguridad
+## 🔐 Seguridad (Si da tiempo a hacerlo)
 
 El sistema utiliza **JWT (JSON Web Tokens)** para gestionar la autenticación y autorización de usuarios.  
 Incluye:
