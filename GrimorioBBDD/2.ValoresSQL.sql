@@ -59,11 +59,11 @@ insert into MenuRol(idMenu,idRol) values
 
 
 COMMIT TRANSACTION;
-PRINT 'Transacción completada correctamente.';
+PRINT 'Transacci n completada correctamente.';
 END TRY
 BEGIN CATCH   
     ROLLBACK TRANSACTION;
 
-    PRINT 'Error en la transacción.';
+    PRINT 'Error en la transacci n.';
     PRINT ERROR_MESSAGE();
 END CATCH;
