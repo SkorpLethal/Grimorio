@@ -7,17 +7,17 @@
                         <a routerLink="/"><img src="images/logo/logo.png" alt="Logo"></a>
                     </div>
                     <h1 class="auth-title">Log in.</h1>
-                    <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
+                    <p class="auth-subtitle mb-5">Accede con tu cuenta para continuar.</p>
 
                     <form action="#s">
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" class="form-control form-control-xl" placeholder="Username">
+                            <input type="email" [(ngModel)] = "login.Correo" class="form-control form-control-xl" placeholder="Email" name="email">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password" class="form-control form-control-xl" placeholder="Password">
+                            <input type="password" [(ngModel)] = "login.Clave" class="form-control form-control-xl" placeholder="Password" name="clave">
                             <div class="form-control-icon">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
@@ -28,7 +28,7 @@
                                 Keep me logged in
                             </label>
                         </div>
-                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Log in</button>
+                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" (click) = "iniciarSesion()" >Log in</button>
                     </form>
                     <div class="text-center mt-5 text-lg fs-4">
                         <p class="text-gray-600">Don't have an account? <a routerLink="/register"
