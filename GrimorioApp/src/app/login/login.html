@@ -1,6 +1,5 @@
 <div id="grimorio-auth">
 
-
   <div class="rune-bg">
     <span class="rune">ᚨ</span>
     <span class="rune">ᚱ</span>
@@ -16,7 +15,6 @@
     <span class="rune">ᛊ</span>
   </div>
 
-
   <div class="mana-particles">
     <div class="particle p1"></div>
     <div class="particle p2"></div>
@@ -31,7 +29,7 @@
 
   <div class="grimorio-container">
 
-
+    <!-- Panel izquierdo -->
     <div class="grimorio-lore d-none d-lg-flex">
       <div class="lore-content">
         <div class="mana-symbols">
@@ -51,6 +49,10 @@
         <p class="lore-text">
           "El conocimiento de todos los planos reside entre estas páginas. Solo los dignos pueden acceder al poder del Grimorio."
         </p>
+        <!-- Separador ornamental nuevo — cierra el texto y abre la carta -->
+        <div class="lore-card-divider">
+          <span>✦</span>
+        </div>
         <div class="card-preview">
           <div class="mtg-card-mock">
             <div class="card-mock-header">
@@ -69,10 +71,9 @@
       </div>
     </div>
 
-
+    <!-- Panel derecho -->
     <div class="grimorio-form-panel">
       <div class="form-grimorio">
-
 
         <div class="corner-ornament top-left">
           <svg width="40" height="40" viewBox="0 0 40 40">
@@ -103,7 +104,6 @@
           </svg>
         </div>
 
-
         <div class="grimorio-header">
           <div class="grimorio-seal">
             <div class="seal-ring outer"></div>
@@ -115,18 +115,14 @@
           <div class="title-ornament">— ✦ —</div>
         </div>
 
-
         <div class="field-section-divider">
           <span class="section-rune">✦ Credenciales ✦</span>
         </div>
 
-
         <form action="#" class="grimorio-login-form">
 
           <div class="spell-field mb-4">
-            <label class="spell-label">
-              Correo del Planeswalker
-            </label>
+            <label class="spell-label">Correo del Planeswalker</label>
             <div class="spell-input-wrap">
               <input
                 type="email"
@@ -135,16 +131,13 @@
                 placeholder="tu@correo.com"
                 name="email"
               >
-
               <i class="bi bi-envelope-fill input-icon"></i>
               <div class="input-glow"></div>
             </div>
           </div>
 
           <div class="spell-field mb-4">
-            <label class="spell-label">
-              Contraseña Arcana
-            </label>
+            <label class="spell-label">Contraseña Arcana</label>
             <div class="spell-input-wrap">
               <input
                 type="password"
