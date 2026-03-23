@@ -1,53 +1,225 @@
-<div id="auth">
+<div id="grimorio-auth">
 
-        <div class="row h-100">
-            <div class="col-lg-5 col-12">
-                <div id="auth-left">
-                    <div class="auth-logo">
-                        <a routerLink="/"><img src="images/logo/logo.png" alt="Logo"></a>
-                    </div>
-                    <h1 class="auth-title">Sign Up</h1>
-                    <p class="auth-subtitle mb-5">Input your data to register to our website.</p>
+  <div class="rune-bg">
+    <span class="rune">ᚨ</span>
+    <span class="rune">ᚱ</span>
+    <span class="rune">ᚷ</span>
+    <span class="rune">ᚹ</span>
+    <span class="rune">ᚺ</span>
+    <span class="rune">ᚾ</span>
+    <span class="rune">ᛁ</span>
+    <span class="rune">ᛃ</span>
+    <span class="rune">ᛇ</span>
+    <span class="rune">ᛈ</span>
+    <span class="rune">ᛉ</span>
+    <span class="rune">ᛊ</span>
+  </div>
 
-                    <form action="#">
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" class="form-control form-control-xl" placeholder="Email">
-                            <div class="form-control-icon">
-                                <i class="bi bi-envelope"></i>
-                            </div>
-                        </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" class="form-control form-control-xl" placeholder="Username">
-                            <div class="form-control-icon">
-                                <i class="bi bi-person"></i>
-                            </div>
-                        </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password" class="form-control form-control-xl" placeholder="Password">
-                            <div class="form-control-icon">
-                                <i class="bi bi-shield-lock"></i>
-                            </div>
-                        </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password" class="form-control form-control-xl" placeholder="Confirm Password">
-                            <div class="form-control-icon">
-                                <i class="bi bi-shield-lock"></i>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Sign Up</button>
-                    </form>
-                    <div class="text-center mt-5 text-lg fs-4">
-                        <p class='text-gray-600'>Already have an account? <a routerLink="/login"
-                                class="font-bold">Log
-                                in</a>.</p>
-                    </div>
-                </div>
+  <div class="mana-particles">
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+    <div class="particle p4"></div>
+    <div class="particle p5"></div>
+    <div class="particle p6"></div>
+    <div class="particle p7"></div>
+    <div class="particle p8"></div>
+    <div class="particle p9"></div>
+  </div>
+
+  <div class="grimorio-container">
+
+    <!-- Panel izquierdo -->
+    <div class="grimorio-lore d-none d-lg-flex">
+      <div class="lore-content">
+        <div class="mana-symbols">
+          <span class="mana-sym" title="Llanura">☀</span>
+          <span class="mana-sym" title="Isla">💧</span>
+          <span class="mana-sym" title="Pantano">💀</span>
+          <span class="mana-sym" title="Montaña">🔥</span>
+          <span class="mana-sym" title="Bosque">🌲</span>
+        </div>
+        <h2 class="lore-title">El Grimorio</h2>
+        <p class="lore-subtitle">Tienda de Cartas</p>
+        <div class="lore-divider">
+          <span>✦</span>
+          <span>Magic: The Gathering</span>
+          <span>✦</span>
+        </div>
+        <p class="lore-text">
+          "Todo gran planeswalker comenzó su camino con un primer paso.
+          Únete al gremio y accede al multiverso de cartas."
+        </p>
+        <div class="lore-card-divider"><span>✦</span></div>
+        <div class="card-preview">
+          <div class="mtg-card-mock">
+            <div class="card-mock-header">
+              <span class="card-mock-name">Nuevo Iniciado</span>
             </div>
-            <div class="col-lg-7 d-none d-lg-block">
-                <div id="auth-right">
-
-                </div>
+            <div class="card-mock-art"></div>
+            <div class="card-mock-type">Criatura — Humano Gremio</div>
+            <div class="card-mock-text">
+              Cuando Nuevo Iniciado entra al campo de batalla, accede
+              al catálogo de todos los planos conocidos.
             </div>
+            <div class="card-mock-footer">
+              <span>★ Empleado ★</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel derecho -->
+    <div class="grimorio-form-panel">
+      <div class="form-grimorio">
+
+        <div class="corner-ornament top-left">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <path d="M2,2 L2,20 M2,2 L20,2" stroke="#c9a84c" stroke-width="2" fill="none" opacity="0.7"/>
+            <circle cx="2" cy="2" r="3" fill="#c9a84c" opacity="0.7"/>
+            <path d="M8,2 L8,8 L2,8" stroke="#c9a84c" stroke-width="1" fill="none" opacity="0.35"/>
+          </svg>
+        </div>
+        <div class="corner-ornament top-right">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <path d="M38,2 L38,20 M38,2 L20,2" stroke="#c9a84c" stroke-width="2" fill="none" opacity="0.7"/>
+            <circle cx="38" cy="2" r="3" fill="#c9a84c" opacity="0.7"/>
+            <path d="M32,2 L32,8 L38,8" stroke="#c9a84c" stroke-width="1" fill="none" opacity="0.35"/>
+          </svg>
+        </div>
+        <div class="corner-ornament bottom-left">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <path d="M2,38 L2,20 M2,38 L20,38" stroke="#c9a84c" stroke-width="2" fill="none" opacity="0.7"/>
+            <circle cx="2" cy="38" r="3" fill="#c9a84c" opacity="0.7"/>
+            <path d="M8,38 L8,32 L2,32" stroke="#c9a84c" stroke-width="1" fill="none" opacity="0.35"/>
+          </svg>
+        </div>
+        <div class="corner-ornament bottom-right">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <path d="M38,38 L38,20 M38,38 L20,38" stroke="#c9a84c" stroke-width="2" fill="none" opacity="0.7"/>
+            <circle cx="38" cy="38" r="3" fill="#c9a84c" opacity="0.7"/>
+            <path d="M32,38 L32,32 L38,32" stroke="#c9a84c" stroke-width="1" fill="none" opacity="0.35"/>
+          </svg>
         </div>
 
+        <!-- Header -->
+        <div class="grimorio-header">
+          <div class="grimorio-seal">
+            <div class="seal-ring outer"></div>
+            <div class="seal-ring inner"></div>
+            <span class="seal-icon">🜁</span>
+          </div>
+          <h1 class="grimorio-title">Únete al Gremio</h1>
+          <p class="grimorio-subtitle">Crea tu cuenta de planeswalker</p>
+          <div class="title-ornament">— ✦ —</div>
+        </div>
+
+        <div class="field-section-divider">
+          <span class="section-rune">✦ Datos del Iniciado ✦</span>
+        </div>
+
+        <form class="grimorio-login-form">
+
+          <!-- Nombre completo -->
+          <div class="spell-field mb-4">
+            <label class="spell-label">Nombre del Planeswalker</label>
+            <div class="spell-input-wrap">
+              <input
+                type="text"
+                [(ngModel)]="registro.NombreCompleto"
+                name="nombreCompleto"
+                class="spell-input"
+                placeholder="Tu nombre completo"
+              >
+              <i class="bi bi-person-fill input-icon"></i>
+              <div class="input-glow"></div>
+            </div>
+          </div>
+
+          <!-- Correo -->
+          <div class="spell-field mb-4">
+            <label class="spell-label">Correo del Planeswalker</label>
+            <div class="spell-input-wrap">
+              <input
+                type="email"
+                [(ngModel)]="registro.Correo"
+                name="correo"
+                class="spell-input"
+                placeholder="tu@correo.com"
+              >
+              <i class="bi bi-envelope-fill input-icon"></i>
+              <div class="input-glow"></div>
+            </div>
+          </div>
+
+          <!-- Contraseña -->
+          <div class="spell-field mb-4">
+            <label class="spell-label">Contraseña Arcana</label>
+            <div class="spell-input-wrap">
+              <input
+                type="password"
+                [(ngModel)]="registro.Clave"
+                name="clave"
+                class="spell-input"
+                placeholder="••••••••"
+              >
+              <i class="bi bi-key-fill input-icon"></i>
+              <div class="input-glow"></div>
+            </div>
+          </div>
+
+          <!-- Confirmar contraseña -->
+          <div class="spell-field mb-4">
+            <label class="spell-label">Confirmar Contraseña</label>
+            <div class="spell-input-wrap">
+              <input
+                type="password"
+                [(ngModel)]="confirmarClave"
+                name="confirmarClave"
+                class="spell-input"
+                placeholder="••••••••"
+              >
+              <i class="bi bi-shield-lock-fill input-icon"></i>
+              <div class="input-glow"></div>
+            </div>
+          </div>
+
+          <!-- Botón -->
+          <button
+            class="grimorio-btn"
+            type="button"
+            (click)="registrar()"
+          >
+            <span class="btn-rune-left">ᚷ</span>
+            <span class="btn-text">
+              <i class="bi bi-stars me-2"></i>
+              Unirse al Gremio
+            </span>
+            <span class="btn-rune-right">ᚾ</span>
+            <div class="btn-shimmer"></div>
+          </button>
+
+          <!-- Error -->
+          @if (errorMensaje) {
+            <div class="grimorio-error mt-3">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              {{ errorMensaje }}
+            </div>
+          }
+
+        </form>
+
+        <div class="grimorio-footer">
+          <div class="footer-divider"><span>✦</span></div>
+          <p class="footer-text">
+            ¿Ya tienes cuenta?
+            <a routerLink="/login" class="grimorio-link">Acceder al Grimorio</a>
+          </p>
+        </div>
+
+      </div>
     </div>
+
+  </div>
+</div>

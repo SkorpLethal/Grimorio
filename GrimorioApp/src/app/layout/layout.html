@@ -1,48 +1,108 @@
-<div id="app">
+<div id="grimorio-app">
 
-<div id="sidebar" class="active">
-    <div class="sidebar-wrapper active">
-        <div class="sidebar-header">
-            <div class="d-flex justify-content-between">
-                <div class="logo">
-                    <a routerLink="/"><img src="images/logo/logo.png" alt="Logo" srcset=""></a>
-                </div>
-                <div class="toggler">
-                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-                </div>
-            </div>
+  <!-- ════════════════════════════════
+       SIDEBAR
+  ════════════════════════════════ -->
+  <nav id="grimorio-sidebar">
+
+    <div class="gsb-header">
+      <div class="gsb-logo-wrap">
+        <div class="gsb-seal">
+          <div class="gsb-seal-ring"></div>
+          <span class="gsb-seal-glyph">⚔</span>
         </div>
-        <div class="sidebar-menu">
-            <ul class="menu">
-                <li class="sidebar-title">Menu</li>
-
-                <li class="sidebar-item active ">
-                    <a routerLink="/" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-
-                <li clss="sidebar-item">
-                    <a routerLink="/login" class='sidebar-link'>
-                        <i class="bi bi-person-badge-fill"></i>
-                        <span>Login</span>
-                    </a>
-                </li>
-
-                <li clss="sidebar-item">
-                    <a routerLink="/register" class='sidebar-link'>
-                        <i class="bi bi-person-badge-fill"></i>
-                        <span>Register</span>
-                    </a>
-                </li>
-
-
-
-            </ul>
+        <div class="gsb-brand">
+          <span class="gsb-brand-title">El Grimorio</span>
+          <span class="gsb-brand-sub">MTG Store</span>
         </div>
-        <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+      </div>
+      <button class="gsb-close d-xl-none" id="gsb-close-btn" aria-label="Cerrar menú">
+        <i class="bi bi-x"></i>
+      </button>
     </div>
-</div>
-<router-outlet></router-outlet>
+
+    <div class="gsb-divider" aria-hidden="true"><span>✦</span></div>
+
+    <div class="gsb-menu-wrap">
+      <p class="gsb-section-label">Navegación</p>
+      <ul class="gsb-menu">
+
+        <li class="gsb-item">
+          <a routerLink="/pages/dashboard" routerLinkActive="gsb-link--active" class="gsb-link">
+            <span class="gsb-link-icon"><i class="bi bi-grid-fill"></i></span>
+            <span class="gsb-link-text">Dashboard</span>
+            <span class="gsb-link-rune" aria-hidden="true">ᚨ</span>
+          </a>
+        </li>
+
+        <li class="gsb-item">
+          <a routerLink="/pages/usuarios" routerLinkActive="gsb-link--active" class="gsb-link">
+            <span class="gsb-link-icon"><i class="bi bi-people-fill"></i></span>
+            <span class="gsb-link-text">Usuarios</span>
+            <span class="gsb-link-rune" aria-hidden="true">ᚱ</span>
+          </a>
+        </li>
+
+        <li class="gsb-item">
+          <a routerLink="/pages/productos" routerLinkActive="gsb-link--active" class="gsb-link">
+            <span class="gsb-link-icon"><i class="bi bi-collection-fill"></i></span>
+            <span class="gsb-link-text">Productos</span>
+            <span class="gsb-link-rune" aria-hidden="true">ᚷ</span>
+          </a>
+        </li>
+
+        <!-- Venta: bi-bag-check-fill es uno de los más seguros en todas las versiones de BI -->
+        <li class="gsb-item">
+          <a routerLink="/pages/venta" routerLinkActive="gsb-link--active" class="gsb-link">
+            <span class="gsb-link-icon"><i class="bi bi-bag-check-fill"></i></span>
+            <span class="gsb-link-text">Venta</span>
+            <span class="gsb-link-rune" aria-hidden="true">ᚹ</span>
+          </a>
+        </li>
+
+        <li class="gsb-item">
+          <a routerLink="/pages/historial_venta" routerLinkActive="gsb-link--active" class="gsb-link">
+            <span class="gsb-link-icon"><i class="bi bi-clock-history"></i></span>
+            <span class="gsb-link-text">Historial</span>
+            <span class="gsb-link-rune" aria-hidden="true">ᚺ</span>
+          </a>
+        </li>
+
+        <li class="gsb-item">
+          <a routerLink="/pages/reportes" routerLinkActive="gsb-link--active" class="gsb-link">
+            <span class="gsb-link-icon"><i class="bi bi-bar-chart-fill"></i></span>
+            <span class="gsb-link-text">Reportes</span>
+            <span class="gsb-link-rune" aria-hidden="true">ᚾ</span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="gsb-footer">
+      <div class="gsb-divider" aria-hidden="true"><span>✦</span></div>
+      <div class="gsb-mana-row" aria-hidden="true">
+        <span title="Llanura">☀</span>
+        <span title="Isla">💧</span>
+        <span title="Pantano">💀</span>
+        <span title="Montaña">🔥</span>
+        <span title="Bosque">🌲</span>
+      </div>
+      <p class="gsb-footer-text">Magic: The Gathering</p>
+    </div>
+
+  </nav>
+
+  <div class="gsb-overlay" id="gsb-overlay"></div>
+
+  <div id="grimorio-main">
+    <header class="grimorio-topbar d-xl-none">
+      <button class="gsb-burger" id="gsb-open-btn" aria-label="Abrir menú">
+        <i class="bi bi-list"></i>
+      </button>
+      <span class="topbar-title">El Grimorio</span>
+    </header>
+    <router-outlet></router-outlet>
+  </div>
+
 </div>

@@ -1,275 +1,246 @@
+<div class="grimorio-dashboard">
 
-        
-        <div id="main">
-            <header class="mb-3">
-                <a href="#" class="burger-btn d-block d-xl-none">
-                    <i class="bi bi-justify fs-3"></i>
-                </a>
-            </header>
+  <!-- ── Partículas de fondo ── -->
+  <div class="dash-particles" aria-hidden="true">
+    <span class="dp dp1"></span><span class="dp dp2"></span>
+    <span class="dp dp3"></span><span class="dp dp4"></span>
+    <span class="dp dp5"></span><span class="dp dp6"></span>
+  </div>
 
-            <div class="page-heading">
-                <h3>Profile Statistics</h3>
-            </div>
-            <div class="page-content">
-                <section class="row">
-                    <div class="col-12 col-lg-9">
-                        <div class="row">
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon purple">
-                                                    <i class="iconly-boldShow"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Profile Views</h6>
-                                                <h6 class="font-extrabold mb-0">112.000</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon blue">
-                                                    <i class="iconly-boldProfile"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Followers</h6>
-                                                <h6 class="font-extrabold mb-0">183.000</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon green">
-                                                    <i class="iconly-boldAdd-User"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Following</h6>
-                                                <h6 class="font-extrabold mb-0">80.000</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon red">
-                                                    <i class="iconly-boldBookmark"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Saved Post</h6>
-                                                <h6 class="font-extrabold mb-0">112</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>Profile Visit</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div id="chart-profile-visit"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-xl-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>Profile Visit</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="d-flex align-items-center">
-                                                    <h5 class="mb-0 ms-3">Europe</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="mb-0">862</h5>
-                                            </div>
-                                            <div class="col-12">
-                                                <div id="chart-europe"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="d-flex align-items-center">
-                                                   
-                                                    <h5 class="mb-0 ms-3">America</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="mb-0">375</h5>
-                                            </div>
-                                            <div class="col-12">
-                                                <div id="chart-america"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="d-flex align-items-center">
-                                                   
-                                                    <h5 class="mb-0 ms-3">Indonesia</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="mb-0">1025</h5>
-                                            </div>
-                                            <div class="col-12">
-                                                <div id="chart-indonesia"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-xl-8">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>Latest Comments</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover table-lg">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Comment</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="col-3">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="avatar avatar-md">
-                                                                    <img src="images/faces/5.jpg">
-                                                                </div>
-                                                                <p class="font-bold ms-3 mb-0">Si Cantik</p>
-                                                            </div>
-                                                        </td>
-                                                        <td class="col-auto">
-                                                            <p class=" mb-0">Congratulations on your graduation!</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="col-3">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="avatar avatar-md">
-                                                                    <img src="images/faces/2.jpg">
-                                                                </div>
-                                                                <p class="font-bold ms-3 mb-0">Si Ganteng</p>
-                                                            </div>
-                                                        </td>
-                                                        <td class="col-auto">
-                                                            <p class=" mb-0">Wow amazing design! Can you make another
-                                                                tutorial for
-                                                                this design?</p>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-3">
-                        <div class="card">
-                            <div class="card-body py-4 px-5">
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar avatar-xl">
-                                        <img src="images/faces/1.jpg" alt="Face 1">
-                                    </div>
-                                    <div class="ms-3 name">
-                                        <h5 class="font-bold">FUDI Duck</h5>
-                                        <h6 class="text-muted mb-0">&#64;LULLA</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Recent Messages</h4>
-                            </div>
-                            <div class="card-content pb-4">
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="images/faces/4.jpg">
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">Hank BUND</h5>
-                                        <h6 class="text-muted mb-0">&#64;BUND</h6>
-                                    </div>
-                                </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="images/faces/5.jpg">
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">Dean MOMA</h5>
-                                        <h6 class="text-muted mb-0">&#64;MOMA</h6>
-                                    </div>
-                                </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="images/faces/1.jpg">
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">John FUDI</h5>
-                                        <h6 class="text-muted mb-0">&#64;LULLA FUDI</h6>
-                                    </div>
-                                </div>
-                                <div class="px-4">
-                                    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
-                                        Conversation</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Visitors Profile</h4>
-                            </div>
-                            <div class="card-body">
-                                <div id="chart-visitors-profile"></div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
+  <!-- ── Cabecera ── -->
+  <header class="dash-header">
+    <div class="dash-header-left">
+      <div class="dash-seal">
+        <span class="seal-glyph">⚔</span>
+        <div class="seal-ring-sm"></div>
+      </div>
+      <div>
+        <h1 class="dash-title">El Grimorio</h1>
+        <p class="dash-subtitle">Tablero de mando · Última semana</p>
+      </div>
+    </div>
+    <div class="dash-header-right">
+      <span class="mana-badge" title="Llanura">☀</span>
+      <span class="mana-badge" title="Isla">💧</span>
+      <span class="mana-badge" title="Pantano">💀</span>
+      <span class="mana-badge" title="Montaña">🔥</span>
+      <span class="mana-badge" title="Bosque">🌲</span>
+    </div>
+  </header>
 
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                        <p>2025 &copy; BUNDUA</p>
-                    </div>
-                    <div class="float-end">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                href="#">A. LULLA</a></p>
-                    </div>
-                </div>
-            </footer>
+  <div class="dash-ornament-line" aria-hidden="true">
+    <span>✦</span>
+  </div>
+
+  <!-- ── Estado de carga / error ── -->
+  @if (cargando) {
+    <div class="dash-loading">
+      <div class="loading-rune">ᚨ</div>
+      <p>Invocando datos del multiverso…</p>
+    </div>
+  }
+
+  @if (errorMsg) {
+    <div class="dash-error">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ errorMsg }}
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════
+       TARJETAS SUPERIORES
+  ══════════════════════════════════════ -->
+  <section class="stat-cards" aria-label="Estadísticas principales">
+
+    <!-- Ventas semana -->
+    <div class="stat-card stat-card--ventas">
+      <div class="stat-card__corner tl" aria-hidden="true"></div>
+      <div class="stat-card__corner br" aria-hidden="true"></div>
+      <div class="stat-card__icon">
+        <span class="stat-glyph">⚡</span>
+      </div>
+      <div class="stat-card__body">
+        <p class="stat-card__label">Ventas · semana</p>
+        <p class="stat-card__value">{{ resumen.totalVentas }}</p>
+        <p class="stat-card__sub">transacciones</p>
+      </div>
+      <div class="stat-card__glow" aria-hidden="true"></div>
+    </div>
+
+    <!-- Ingresos semana -->
+    <div class="stat-card stat-card--ingresos">
+      <div class="stat-card__corner tl" aria-hidden="true"></div>
+      <div class="stat-card__corner br" aria-hidden="true"></div>
+      <div class="stat-card__icon">
+        <span class="stat-glyph">◈</span>
+      </div>
+      <div class="stat-card__body">
+        <p class="stat-card__label">Ingresos · semana</p>
+        <p class="stat-card__value">{{ formatearPrecio(resumen.totalIngresos) }}</p>
+        <p class="stat-card__sub">últimos 7 días</p>
+      </div>
+      <div class="stat-card__glow" aria-hidden="true"></div>
+    </div>
+
+    <!-- Total cartas -->
+    <div class="stat-card stat-card--cartas">
+      <div class="stat-card__corner tl" aria-hidden="true"></div>
+      <div class="stat-card__corner br" aria-hidden="true"></div>
+      <div class="stat-card__icon">
+        <span class="stat-glyph">🃏</span>
+      </div>
+      <div class="stat-card__body">
+        <p class="stat-card__label">Cartas en catálogo</p>
+        <p class="stat-card__value">{{ resumen.totalCartas }}</p>
+        <p class="stat-card__sub">cartas activas</p>
+      </div>
+      <div class="stat-card__glow" aria-hidden="true"></div>
+    </div>
+
+    <!-- Total sets -->
+    <div class="stat-card stat-card--sets">
+      <div class="stat-card__corner tl" aria-hidden="true"></div>
+      <div class="stat-card__corner br" aria-hidden="true"></div>
+      <div class="stat-card__icon">
+        <span class="stat-glyph">📚</span>
+      </div>
+      <div class="stat-card__body">
+        <p class="stat-card__label">Sets disponibles</p>
+        <p class="stat-card__value">{{ totalSets }}</p>
+        <p class="stat-card__sub">expansiones</p>
+      </div>
+      <div class="stat-card__glow" aria-hidden="true"></div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FILA PRINCIPAL: GRÁFICO + BAJO STOCK
+  ══════════════════════════════════════ -->
+  <section class="dash-row-main">
+
+    <!-- Gráfico ventas -->
+    <div class="dash-panel dash-panel--chart">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-rune" aria-hidden="true">ᚷ</span>
+          <h2 class="panel-title">Ventas · última semana</h2>
         </div>
+        <div class="panel-ornament" aria-hidden="true">— ✦ —</div>
+      </div>
+      <div class="panel-body">
+        @if (resumen.ventasUltimaSemana && resumen.ventasUltimaSemana.length > 0) {
+          <div id="grimorio-chart"></div>
+        } @else {
+          <div class="no-data">
+            <span class="no-data-rune" aria-hidden="true">ᚺ</span>
+            <p>Sin datos de ventas para esta semana</p>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Cartas con poco stock -->
+    <div class="dash-panel dash-panel--stock">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-rune" aria-hidden="true">ᚾ</span>
+          <h2 class="panel-title">Alerta de stock</h2>
+        </div>
+        <div class="panel-ornament" aria-hidden="true">— ✦ —</div>
+      </div>
+      <div class="panel-body panel-body--scroll">
+        @if (cartasBajoStock.length > 0) {
+          <ul class="stock-list">
+            @for (carta of cartasBajoStock; track carta.idCarta) {
+              <li class="stock-item" [ngClass]="getRarezaClase(carta.stock)">
+                <div class="stock-item__name">
+                  <span class="stock-dot" aria-hidden="true"></span>
+                  {{ carta.nombre }}
+                </div>
+                <div class="stock-item__meta">
+                  <span class="stock-set">{{ carta.descripcionSet }}</span>
+                  <span class="stock-badge" [ngClass]="getRarezaClase(carta.stock)">
+                    {{ carta.stock === 0 ? 'Agotada' : carta.stock + ' uds.' }}
+                  </span>
+                </div>
+              </li>
+            }
+          </ul>
+        } @else {
+          <div class="no-data">
+            <span class="no-data-rune" aria-hidden="true">✦</span>
+            <p>Todo el stock está en orden</p>
+          </div>
+        }
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FILA SECUNDARIA: ÚLTIMAS VENTAS
+  ══════════════════════════════════════ -->
+  <section class="dash-row-secondary">
+
+    <div class="dash-panel dash-panel--ventas-tabla">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-rune" aria-hidden="true">ᛁ</span>
+          <h2 class="panel-title">Últimas ventas</h2>
+        </div>
+        <div class="panel-ornament" aria-hidden="true">— ✦ —</div>
+      </div>
+      <div class="panel-body">
+        @if (ultimasVentas.length > 0) {
+          <div class="grimorio-table-wrap">
+            <table class="grimorio-table">
+              <thead>
+                <tr>
+                  <th>Nº Documento</th>
+                  <th>Tipo pago</th>
+                  <th>Fecha</th>
+                  <th class="text-end">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (venta of ultimasVentas; track venta.idVenta) {
+                  <tr>
+                    <td>
+                      <span class="doc-badge">{{ venta.numeroDocumento }}</span>
+                    </td>
+                    <td>
+                      <span class="pago-badge"
+                        [class.pago-efectivo]="venta.tipoPago === 'Efectivo'"
+                        [class.pago-tarjeta]="venta.tipoPago === 'Tarjeta'">
+                        {{ venta.tipoPago }}
+                      </span>
+                    </td>
+                    <td class="fecha-cell">{{ venta.fechaRegistro }}</td>
+                    <td class="text-end total-cell">{{ formatearPrecio(venta.total) }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <div class="no-data">
+            <span class="no-data-rune" aria-hidden="true">ᛃ</span>
+            <p>No se encontraron ventas recientes</p>
+          </div>
+        }
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="dash-footer">
+    <div class="footer-ornament" aria-hidden="true">
+      <span>✦</span>
+      <span class="footer-runes">ᚨ ᚱ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ</span>
+      <span>✦</span>
+    </div>
+    <p>2025 &copy; El Grimorio · Magic: The Gathering Store</p>
+  </footer>
+
+</div>
