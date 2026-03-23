@@ -60,7 +60,7 @@ namespace Grimorio.BLL.Servicios
 
                     listaResultado = await query.Where(v =>
                         v.FechaRegistro.Value.Date >= fecha_Inicio.Date &&
-                        v.FechaRegistro.Value.Date <= fecha_Inicio.Date
+                        v.FechaRegistro.Value.Date <= fecha_Fin.Date
                     ).Include(dv => dv.DetalleVenta)
                     .ThenInclude(c => c.IdCartaNavigation)
                     .ToListAsync();

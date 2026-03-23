@@ -1,6 +1,17 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ChangeDetectorRef,
+  NgZone,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardService, DashBoardDTO, CartaDTO, SetDTO, VentaDTO } from '../../../servicios/dashboard.service';
+import {
+  DashboardService,
+  DashBoardDTO,
+  CartaDTO,
+  VentaDTO,
+} from '../../../servicios/dashboard.service';
 
 declare const ApexCharts: any;
 
@@ -26,98 +37,132 @@ export class Dashboard implements OnInit, AfterViewInit {
   errorMsg: string = '';
 
   private chartInstance: any = null;
+  private datosCargados: boolean = false;
 
-  @ViewChild('chartContainer') chartContainer!: ElementRef;
-
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
     this.cargarDatos();
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    // Si los datos ya llegaron antes de que la vista esté lista, pintar el gráfico
+    if (this.datosCargados) {
+      this.renderGrafico();
+    }
+  }
 
   cargarDatos(): void {
     this.cargando = true;
 
-    // Resumen principal
+    // ── Resumen principal ──
     this.dashboardService.getResumen().subscribe({
       next: (res) => {
-        if (res.status) {
-          this.resumen = res.value;
-          // Render chart after data arrives
-          setTimeout(() => this.renderGrafico(), 100);
-        }
+        this.ngZone.run(() => {
+          if (res.status) {
+            this.resumen = { ...res.value };
+          }
+          this.cargando = false;
+          this.datosCargados = true;
+          this.cdr.detectChanges();
+          // Dar un tick para que el DOM tenga el #grimorio-chart disponible
+          setTimeout(() => {
+            this.renderGrafico();
+            this.cdr.detectChanges();
+          }, 50);
+        });
       },
       error: () => {
-        this.errorMsg = 'No se pudo conectar con el servidor.';
-        this.cargando = false;
+        this.ngZone.run(() => {
+          this.errorMsg = 'No se pudo conectar con el servidor.';
+          this.cargando = false;
+          this.cdr.detectChanges();
+        });
       },
     });
 
-    // Cartas con bajo stock
+    // ── Cartas con bajo stock ──
     this.dashboardService.getCartas().subscribe({
       next: (res) => {
-        if (res.status) {
-          this.cartasBajoStock = res.value
-            .filter((c) => c.esActivo && (c.stock ?? 0) <= 5)
-            .sort((a, b) => (a.stock ?? 0) - (b.stock ?? 0))
-            .slice(0, 8);
-        }
-        this.cargando = false;
+        this.ngZone.run(() => {
+          if (res.status && res.value) {
+            this.cartasBajoStock = res.value
+              .filter((c) => c.esActivo && (c.stock ?? 0) <= 5)
+              .sort((a, b) => (a.stock ?? 0) - (b.stock ?? 0))
+              .slice(0, 8);
+          }
+          this.cdr.detectChanges();
+        });
       },
-      error: () => {
-        this.cargando = false;
-      },
+      error: () => {},
     });
 
-    // Total sets
+    // ── Total sets ──
     this.dashboardService.getSets().subscribe({
       next: (res) => {
-        if (res.status) {
-          this.totalSets = res.value.length;
-        }
+        this.ngZone.run(() => {
+          if (res.status && res.value) {
+            this.totalSets = res.value.length;
+          }
+          this.cdr.detectChanges();
+        });
       },
+      error: () => {},
     });
 
-    // Últimas ventas - buscamos por fecha de hoy hacia atrás (historial)
+    // ── Últimas ventas ──
+    const fmt = (d: Date) =>
+      `${String(d.getDate()).padStart(2, '0')}/${String(
+        d.getMonth() + 1
+      ).padStart(2, '0')}/${d.getFullYear()}`;
+
     const hoy = new Date();
     const hace30 = new Date();
     hace30.setDate(hace30.getDate() - 30);
-    const fmt = (d: Date) =>
-      `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
 
     this.dashboardService
       .getHistorial('fecha', '', fmt(hace30), fmt(hoy))
       .subscribe({
         next: (res) => {
-          if (res.status && res.value) {
-            this.ultimasVentas = res.value.slice(0, 8);
-          }
+          this.ngZone.run(() => {
+            if (res.status && res.value) {
+              this.ultimasVentas = res.value.slice(0, 8);
+            }
+            this.cdr.detectChanges();
+          });
         },
+        error: () => {},
       });
   }
 
   renderGrafico(): void {
     const el = document.getElementById('grimorio-chart');
-    if (!el || typeof ApexCharts === 'undefined') return;
+    if (!el) return;
+    if (typeof ApexCharts === 'undefined') return;
 
     const semana = this.resumen.ventasUltimaSemana ?? [];
+    if (semana.length === 0) return;
+
     const categorias = semana.map((v) => v.fecha);
     const valores = semana.map((v) => v.total);
 
     if (this.chartInstance) {
       this.chartInstance.destroy();
+      this.chartInstance = null;
     }
 
     const options = {
       series: [{ name: 'Ventas', data: valores }],
       chart: {
         type: 'area',
-        height: 280,
+        height: 260,
         background: 'transparent',
         toolbar: { show: false },
-        sparkline: { enabled: false },
+        animations: { enabled: true, speed: 600 },
       },
       dataLabels: { enabled: false },
       stroke: { curve: 'smooth', width: 2, colors: ['#c9a84c'] },
@@ -136,9 +181,11 @@ export class Dashboard implements OnInit, AfterViewInit {
       },
       xaxis: {
         categories: categorias,
-        labels: { style: { colors: '#a090c0', fontFamily: 'Crimson Text, serif' } },
+        labels: {
+          style: { colors: '#a090c0', fontFamily: 'Crimson Text, serif' },
+        },
         axisBorder: { color: 'rgba(201,168,76,0.2)' },
-        axisTicks: { color: 'rgba(201,168,76,0.2)' },
+        axisTicks:  { color: 'rgba(201,168,76,0.2)' },
       },
       yaxis: {
         labels: {
