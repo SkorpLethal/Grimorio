@@ -1,1 +1,284 @@
-<p>usuarios works!</p>
+<div class="grimorio-page">
+
+  <!-- ── Partículas ── -->
+  <div class="page-particles" aria-hidden="true">
+    <span class="pp pp1"></span><span class="pp pp2"></span>
+    <span class="pp pp3"></span><span class="pp pp4"></span>
+  </div>
+
+  <!-- ── Cabecera ── -->
+  <header class="page-header">
+    <div class="page-header__left">
+      <div class="page-seal">
+        <span class="page-seal__glyph">👥</span>
+        <div class="page-seal__ring"></div>
+      </div>
+      <div>
+        <h1 class="page-title">Usuarios</h1>
+        <p class="page-subtitle">Gestión de planeswalkers del Gremio</p>
+      </div>
+    </div>
+    <button class="grimorio-btn-primary" (click)="abrirModalCrear()">
+      <i class="bi bi-person-plus-fill me-2"></i>
+      Nuevo Usuario
+      <div class="btn-shimmer"></div>
+    </button>
+  </header>
+
+  <div class="page-ornament-line" aria-hidden="true"><span>✦</span></div>
+
+  <!-- ── Error ── -->
+  @if (errorMsg) {
+    <div class="page-error">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ errorMsg }}
+    </div>
+  }
+
+  <!-- ── Barra de herramientas ── -->
+  <div class="page-toolbar">
+    <div class="search-wrap">
+      <i class="bi bi-search search-icon"></i>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar por nombre, correo o rol…"
+        [(ngModel)]="filtroBusqueda"
+      />
+    </div>
+    <span class="toolbar-count">
+      {{ usuariosFiltrados.length }} registro{{ usuariosFiltrados.length !== 1 ? 's' : '' }}
+    </span>
+  </div>
+
+  <!-- ── Carga ── -->
+  @if (cargando) {
+    <div class="page-loading">
+      <div class="loading-rune">ᚨ</div>
+      <p>Invocando registros del Gremio…</p>
+    </div>
+  }
+
+  <!-- ── Tabla ── -->
+  @if (!cargando) {
+    <div class="grimorio-panel">
+      <div class="grimorio-table-wrap">
+        <table class="grimorio-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (usuariosFiltrados.length === 0) {
+              <tr>
+                <td colspan="6">
+                  <div class="no-data">
+                    <span class="no-data-rune">ᚺ</span>
+                    <p>No se encontraron usuarios</p>
+                  </div>
+                </td>
+              </tr>
+            }
+            @for (u of usuariosFiltrados; track u.idUsuario) {
+              <tr>
+                <td class="id-cell">{{ u.idUsuario }}</td>
+                <td class="name-cell">
+                  <span class="user-avatar">{{ u.nombreCompleto.charAt(0).toUpperCase() }}</span>
+                  {{ u.nombreCompleto }}
+                </td>
+                <td class="email-cell">{{ u.correo }}</td>
+                <td>
+                  <span class="rol-badge" [ngClass]="getRolClase(u.descripcionRol)">
+                    {{ u.descripcionRol }}
+                  </span>
+                </td>
+                <td>
+                  <span class="estado-badge" [class.activo]="u.esActivo" [class.inactivo]="!u.esActivo">
+                    {{ u.esActivo ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </td>
+                <td class="text-end">
+                  <div class="action-btns">
+                    <button class="action-btn action-btn--edit" (click)="abrirModalEditar(u)" title="Editar">
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="action-btn action-btn--delete" (click)="pedirConfirmacionEliminar(u)" title="Eliminar">
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+
+  <!-- ════════════════════════════════════════
+       MODAL — CREAR / EDITAR
+  ════════════════════════════════════════ -->
+  @if (modalVisible) {
+    <div class="grimorio-modal-overlay" (click)="cerrarModal()">
+      <div class="grimorio-modal" (click)="$event.stopPropagation()">
+
+        <!-- Ornamentos de esquina -->
+        <div class="modal-corner tl"></div>
+        <div class="modal-corner tr"></div>
+        <div class="modal-corner bl"></div>
+        <div class="modal-corner br"></div>
+
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <span class="modal-rune" aria-hidden="true">{{ modoEdicion ? 'ᚱ' : 'ᚨ' }}</span>
+            <h2 class="modal-title">{{ modoEdicion ? 'Editar Usuario' : 'Nuevo Usuario' }}</h2>
+          </div>
+          <button class="modal-close" (click)="cerrarModal()" aria-label="Cerrar">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <!-- Nombre -->
+          <div class="spell-field">
+            <label class="spell-label">Nombre del Planeswalker</label>
+            <div class="spell-input-wrap">
+              <input type="text" class="spell-input" placeholder="Nombre completo"
+                     [(ngModel)]="formulario.nombreCompleto" name="nombreCompleto">
+              <i class="bi bi-person-fill input-icon"></i>
+            </div>
+          </div>
+
+          <!-- Correo -->
+          <div class="spell-field">
+            <label class="spell-label">Correo</label>
+            <div class="spell-input-wrap">
+              <input type="email" class="spell-input" placeholder="correo@ejemplo.com"
+                     [(ngModel)]="formulario.correo" name="correo">
+              <i class="bi bi-envelope-fill input-icon"></i>
+            </div>
+          </div>
+
+          <!-- Rol -->
+          <div class="spell-field">
+            <label class="spell-label">Rol en el Gremio</label>
+            <div class="spell-input-wrap">
+              <select class="spell-input spell-select" [(ngModel)]="formulario.idRol" name="idRol">
+                <option [ngValue]="null" disabled>Selecciona un rol…</option>
+                @for (r of roles; track r.idRol) {
+                  <option [ngValue]="r.idRol">{{ r.nombre }}</option>
+                }
+              </select>
+              <i class="bi bi-shield-fill input-icon"></i>
+            </div>
+          </div>
+
+          <!-- Contraseña -->
+          <div class="spell-field">
+            <label class="spell-label">
+              {{ modoEdicion ? 'Nueva Contraseña (dejar vacío para no cambiar)' : 'Contraseña Arcana' }}
+            </label>
+            <div class="spell-input-wrap">
+              <input type="password" class="spell-input" placeholder="••••••••"
+                     [(ngModel)]="formulario.clave" name="clave">
+              <i class="bi bi-key-fill input-icon"></i>
+            </div>
+          </div>
+
+          <!-- Confirmar contraseña -->
+          <div class="spell-field">
+            <label class="spell-label">Confirmar Contraseña</label>
+            <div class="spell-input-wrap">
+              <input type="password" class="spell-input" placeholder="••••••••"
+                     [(ngModel)]="formulario.confirmarClave" name="confirmarClave">
+              <i class="bi bi-shield-lock-fill input-icon"></i>
+            </div>
+          </div>
+
+          <!-- Estado (solo en edición) -->
+          @if (modoEdicion) {
+            <div class="spell-field spell-field--toggle">
+              <label class="spell-label">Estado</label>
+              <label class="toggle-switch">
+                <input type="checkbox" [(ngModel)]="formulario.esActivo" name="esActivo">
+                <span class="toggle-track">
+                  <span class="toggle-thumb"></span>
+                </span>
+                <span class="toggle-label">{{ formulario.esActivo ? 'Activo' : 'Inactivo' }}</span>
+              </label>
+            </div>
+          }
+
+          <!-- Error modal -->
+          @if (errorModal) {
+            <div class="grimorio-error">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ errorModal }}
+            </div>
+          }
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="grimorio-btn-ghost" (click)="cerrarModal()">
+            Cancelar
+          </button>
+          <button class="grimorio-btn-primary" (click)="guardar()" [disabled]="guardando">
+            @if (guardando) {
+              <span class="spinner-rune">ᚷ</span>
+            } @else {
+              <i class="bi bi-check2-circle me-2"></i>
+            }
+            {{ modoEdicion ? 'Guardar cambios' : 'Crear usuario' }}
+            <div class="btn-shimmer"></div>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  }
+
+  <!-- ════════════════════════════════════════
+       MODAL — CONFIRMAR ELIMINAR
+  ════════════════════════════════════════ -->
+  @if (confirmarEliminarVisible) {
+    <div class="grimorio-modal-overlay" (click)="cancelarEliminar()">
+      <div class="grimorio-modal grimorio-modal--sm" (click)="$event.stopPropagation()">
+
+        <div class="modal-corner tl"></div>
+        <div class="modal-corner tr"></div>
+        <div class="modal-corner bl"></div>
+        <div class="modal-corner br"></div>
+
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <span class="modal-rune danger-rune" aria-hidden="true">⚠</span>
+            <h2 class="modal-title">Confirmar eliminación</h2>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <p class="confirm-text">
+            ¿Seguro que deseas eliminar a
+            <strong class="confirm-name">{{ usuarioAEliminar?.nombreCompleto }}</strong>?
+            Esta acción no se puede deshacer.
+          </p>
+        </div>
+
+        <div class="modal-footer">
+          <button class="grimorio-btn-ghost" (click)="cancelarEliminar()">Cancelar</button>
+          <button class="grimorio-btn-danger" (click)="confirmarEliminar()">
+            <i class="bi bi-trash3-fill me-2"></i>Eliminar
+          </button>
+        </div>
+
+      </div>
+    </div>
+  }
+
+</div>

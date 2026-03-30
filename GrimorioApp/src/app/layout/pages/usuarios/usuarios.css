@@ -1,0 +1,780 @@
+/* =========================================================
+   EL GRIMORIO — usuarios.css
+   CRUD de usuarios con estética MTG oscura coherente
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+  --gold:         #c9a84c;
+  --gold-light:   #f0d080;
+  --gold-dark:    #8a6a1e;
+  --purple:       #6b3fa0;
+  --purple-dark:  #2e1a4a;
+  --bg-dark:      #080612;
+  --bg-panel:     rgba(20, 15, 38, 0.92);
+  --text-gold:    #e8c96a;
+  --text-light:   #e8dfc8;
+  --text-muted:   #a090c0;
+  --border-gold:  rgba(201, 168, 76, 0.25);
+  --font-title:   'Cinzel', serif;
+  --font-body:    'Crimson Text', serif;
+}
+
+/* ── Contenedor ── */
+.grimorio-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 15% 20%, rgba(61,36,96,0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 80%, rgba(26,58,107,0.2) 0%, transparent 50%),
+    linear-gradient(160deg, #0e0b1e 0%, #080612 100%);
+  font-family: var(--font-body);
+  color: var(--text-light);
+  padding: 2rem 2.5rem 3rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.grimorio-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg,  transparent, transparent 50px, rgba(201,168,76,0.02) 50px, rgba(201,168,76,0.02) 51px),
+    repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(201,168,76,0.02) 50px, rgba(201,168,76,0.02) 51px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grimorio-page > * { position: relative; z-index: 1; }
+
+/* ── Partículas ── */
+.page-particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.pp { position: absolute; border-radius: 50%; animation: ppFloat ease-in-out infinite; filter: blur(1px); }
+.pp1 { width: 5px;  height: 5px;  background: rgba(201,168,76,0.45); left: 8%;  top: 25%; animation-duration: 7s;  }
+.pp2 { width: 4px;  height: 4px;  background: rgba(107,63,160,0.55); left: 78%; top: 15%; animation-duration: 9s;  animation-delay: -3s; }
+.pp3 { width: 6px;  height: 6px;  background: rgba(74,143,212,0.4);  left: 55%; top: 65%; animation-duration: 6s;  animation-delay: -1s; }
+.pp4 { width: 3px;  height: 3px;  background: rgba(201,168,76,0.35); left: 92%; top: 55%; animation-duration: 11s; animation-delay: -5s; }
+
+@keyframes ppFloat {
+  0%, 100% { transform: translateY(0);       opacity: 0.5; }
+  50%       { transform: translateY(-18px);   opacity: 1; }
+}
+
+/* ── Cabecera ── */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border-gold);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-header__left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-seal {
+  position: relative;
+  width: 48px; height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.page-seal__glyph { font-size: 1.35rem; z-index: 2; }
+
+.page-seal__ring {
+  position: absolute;
+  inset: 0;
+  border: 1px dashed rgba(201,168,76,0.4);
+  border-radius: 50%;
+  animation: sealRotate 10s linear infinite;
+}
+
+@keyframes sealRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.page-title {
+  font-family: var(--font-title);
+  font-size: 1.55rem;
+  font-weight: 900;
+  background: linear-gradient(180deg, #f0d080 0%, #c9a84c 55%, #8a6a1e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  letter-spacing: 0.08em;
+  filter: drop-shadow(0 0 10px rgba(201,168,76,0.3));
+}
+
+.page-subtitle {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.page-ornament-line {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.8rem;
+  color: rgba(201,168,76,0.35);
+  font-size: 0.7rem;
+}
+
+.page-ornament-line::before,
+.page-ornament-line::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent);
+}
+
+/* ── Botón primario ── */
+.grimorio-btn-primary {
+  position: relative;
+  padding: 0.7rem 1.4rem;
+  background: linear-gradient(135deg, #2e1a4a 0%, #1a0f30 40%, #2e1a4a 100%);
+  border: 1px solid rgba(201,168,76,0.45);
+  border-radius: 3px;
+  color: var(--gold-light);
+  font-family: var(--font-title);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.15s, box-shadow 0.3s, background 0.3s;
+  box-shadow: 0 4px 16px rgba(107,63,160,0.3), inset 0 1px 0 rgba(201,168,76,0.08);
+}
+
+.grimorio-btn-primary:hover {
+  background: linear-gradient(135deg, #3d2460 0%, #2e1a4a 40%, #3d2460 100%);
+  border-color: rgba(201,168,76,0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(107,63,160,0.45), 0 0 20px rgba(201,168,76,0.15);
+}
+
+.grimorio-btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Botón fantasma ── */
+.grimorio-btn-ghost {
+  padding: 0.65rem 1.2rem;
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 3px;
+  color: var(--text-muted);
+  font-family: var(--font-title);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.25s, color 0.25s;
+}
+
+.grimorio-btn-ghost:hover {
+  border-color: rgba(201,168,76,0.5);
+  color: var(--text-light);
+}
+
+/* ── Botón peligro ── */
+.grimorio-btn-danger {
+  position: relative;
+  padding: 0.65rem 1.3rem;
+  background: rgba(80, 20, 20, 0.6);
+  border: 1px solid rgba(180,60,60,0.5);
+  border-radius: 3px;
+  color: #e08080;
+  font-family: var(--font-title);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.25s, border-color 0.25s, transform 0.15s;
+}
+
+.grimorio-btn-danger:hover {
+  background: rgba(100, 30, 30, 0.75);
+  border-color: rgba(220,80,80,0.65);
+  transform: translateY(-1px);
+}
+
+/* Shimmer en botones */
+.btn-shimmer {
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.08), transparent);
+  transform: skewX(-20deg);
+  animation: shimmerBtn 3s ease-in-out infinite;
+}
+
+@keyframes shimmerBtn {
+  0%   { left: -100%; }
+  50%  { left: 150%; }
+  100% { left: 150%; }
+}
+
+/* ── Error ── */
+.page-error {
+  background: rgba(80,20,20,0.45);
+  border: 1px solid rgba(180,60,60,0.4);
+  border-radius: 3px;
+  padding: 0.75rem 1.2rem;
+  color: #e08080;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Carga ── */
+.page-loading {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+}
+
+.loading-rune {
+  font-family: var(--font-title);
+  font-size: 3rem;
+  color: var(--gold);
+  animation: spinRune 2s linear infinite;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes spinRune {
+  from { transform: rotate(0deg); opacity: 0.5; }
+  to   { transform: rotate(360deg); opacity: 1; }
+}
+
+/* ── Toolbar ── */
+.page-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 420px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(201,168,76,0.4);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  background: rgba(8,6,18,0.7);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 3px;
+  padding: 0.65rem 1rem 0.65rem 2.4rem;
+  color: var(--text-light);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.search-input::placeholder { color: rgba(160,144,192,0.35); font-style: italic; }
+
+.search-input:focus {
+  border-color: rgba(201,168,76,0.45);
+  box-shadow: 0 0 12px rgba(201,168,76,0.08);
+}
+
+.toolbar-count {
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── Panel / Tabla ── */
+.grimorio-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-gold);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(201,168,76,0.05);
+}
+
+.grimorio-table-wrap {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,168,76,0.2) transparent;
+}
+
+.grimorio-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.grimorio-table thead tr {
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+  background: rgba(8,6,18,0.45);
+}
+
+.grimorio-table th {
+  font-family: var(--font-title);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.grimorio-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+  vertical-align: middle;
+  color: var(--text-light);
+}
+
+.grimorio-table tbody tr {
+  transition: background 0.2s;
+}
+
+.grimorio-table tbody tr:hover {
+  background: rgba(201,168,76,0.04);
+}
+
+.grimorio-table tbody tr:last-child td { border-bottom: none; }
+
+.id-cell {
+  font-family: var(--font-title);
+  font-size: 0.8rem;
+  color: rgba(201,168,76,0.5);
+  width: 50px;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-style: italic;
+}
+
+.user-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2e1a4a, #1a0f30);
+  border: 1px solid rgba(201,168,76,0.3);
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+  color: var(--text-gold);
+  flex-shrink: 0;
+}
+
+.email-cell { color: var(--text-muted); font-size: 0.9rem; }
+
+/* ── Badges de rol ── */
+.rol-badge {
+  font-family: var(--font-title);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  border: 1px solid;
+}
+
+.rol-admin {
+  color: #e8c96a;
+  border-color: rgba(232,201,106,0.4);
+  background: rgba(232,201,106,0.08);
+}
+
+.rol-supervisor {
+  color: #80b8e0;
+  border-color: rgba(128,184,224,0.35);
+  background: rgba(128,184,224,0.07);
+}
+
+.rol-empleado {
+  color: #a0c0a0;
+  border-color: rgba(160,192,160,0.3);
+  background: rgba(160,192,160,0.06);
+}
+
+/* ── Estado activo/inactivo ── */
+.estado-badge {
+  font-family: var(--font-title);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  border: 1px solid;
+}
+
+.estado-badge.activo {
+  color: #80c880;
+  border-color: rgba(128,200,128,0.35);
+  background: rgba(128,200,128,0.07);
+}
+
+.estado-badge.inactivo {
+  color: #e08080;
+  border-color: rgba(224,128,128,0.3);
+  background: rgba(224,128,128,0.06);
+}
+
+/* ── Acciones ── */
+.action-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.action-btn {
+  width: 30px; height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  border: 1px solid;
+  cursor: pointer;
+  font-size: 0.75rem;
+  background: transparent;
+  transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+}
+
+.action-btn--edit {
+  color: rgba(201,168,76,0.7);
+  border-color: rgba(201,168,76,0.25);
+}
+
+.action-btn--edit:hover {
+  background: rgba(201,168,76,0.12);
+  border-color: rgba(201,168,76,0.55);
+  color: var(--text-gold);
+  transform: translateY(-1px);
+}
+
+.action-btn--delete {
+  color: rgba(224,80,80,0.65);
+  border-color: rgba(224,80,80,0.2);
+}
+
+.action-btn--delete:hover {
+  background: rgba(224,80,80,0.1);
+  border-color: rgba(224,80,80,0.45);
+  transform: translateY(-1px);
+}
+
+/* ── Sin datos ── */
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 3rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.no-data-rune {
+  font-family: var(--font-title);
+  font-size: 2rem;
+  color: rgba(201,168,76,0.25);
+}
+
+/* ══════════════════════════════════════
+   MODALES
+══════════════════════════════════════ */
+.grimorio-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(4px);
+  animation: overlayIn 0.2s ease;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.grimorio-modal {
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(61,36,96,0.35) 0%, transparent 55%),
+    linear-gradient(160deg, rgba(26,20,48,0.97), rgba(10,8,20,0.99));
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 4px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow:
+    0 0 0 1px rgba(201,168,76,0.07),
+    0 16px 48px rgba(0,0,0,0.9),
+    0 0 40px rgba(107,63,160,0.2);
+  animation: modalIn 0.25s ease;
+  overflow: hidden;
+}
+
+.grimorio-modal--sm { max-width: 380px; }
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(-16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Ornamentos de esquina del modal */
+.modal-corner {
+  position: absolute;
+  width: 14px; height: 14px;
+  border-color: rgba(201,168,76,0.4);
+  border-style: solid;
+  z-index: 2;
+}
+.modal-corner.tl { top: 6px;    left: 6px;    border-width: 1px 0 0 1px; }
+.modal-corner.tr { top: 6px;    right: 6px;   border-width: 1px 1px 0 0; }
+.modal-corner.bl { bottom: 6px; left: 6px;    border-width: 0 0 1px 1px; }
+.modal-corner.br { bottom: 6px; right: 6px;   border-width: 0 1px 1px 0; }
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(201,168,76,0.18);
+  background: rgba(8,6,18,0.4);
+}
+
+.modal-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.modal-rune {
+  font-family: var(--font-title);
+  font-size: 1rem;
+  color: rgba(201,168,76,0.6);
+}
+
+.danger-rune { color: rgba(224,80,80,0.7); }
+
+.modal-title {
+  font-family: var(--font-title);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-gold);
+  margin: 0;
+}
+
+.modal-close {
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.2);
+  color: var(--text-muted);
+  border-radius: 3px;
+  width: 28px; height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: color 0.2s, border-color 0.2s;
+  padding: 0;
+}
+
+.modal-close:hover {
+  color: var(--text-light);
+  border-color: rgba(201,168,76,0.45);
+}
+
+.modal-body {
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  padding: 1rem 1.5rem 1.3rem;
+  border-top: 1px solid rgba(201,168,76,0.12);
+  background: rgba(8,6,18,0.25);
+}
+
+/* ── Campos del modal ── */
+.spell-field { display: flex; flex-direction: column; gap: 0.4rem; }
+.spell-field--toggle { flex-direction: row; align-items: center; justify-content: space-between; }
+
+.spell-label {
+  font-family: var(--font-title);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  color: rgba(201,168,76,0.8);
+  text-transform: uppercase;
+}
+
+.spell-input-wrap { position: relative; }
+
+.spell-input {
+  width: 100%;
+  background: rgba(8,6,18,0.7);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 3px;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  color: var(--text-light);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.spell-input::placeholder { color: rgba(160,144,192,0.35); font-style: italic; }
+
+.spell-input:focus {
+  border-color: rgba(201,168,76,0.45);
+  box-shadow: 0 0 12px rgba(201,168,76,0.08);
+}
+
+.spell-select { cursor: pointer; }
+
+.spell-select option {
+  background: #0e0b1e;
+  color: var(--text-light);
+}
+
+.input-icon {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(201,168,76,0.4);
+  font-size: 0.82rem;
+  pointer-events: none;
+}
+
+/* ── Toggle ── */
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+}
+
+.toggle-switch input { display: none; }
+
+.toggle-track {
+  width: 42px; height: 22px;
+  background: rgba(8,6,18,0.7);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 11px;
+  position: relative;
+  transition: background 0.25s, border-color 0.25s;
+}
+
+.toggle-switch input:checked + .toggle-track {
+  background: rgba(201,168,76,0.15);
+  border-color: rgba(201,168,76,0.5);
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 16px; height: 16px;
+  background: rgba(160,144,192,0.5);
+  border-radius: 50%;
+  transition: transform 0.25s, background 0.25s;
+}
+
+.toggle-switch input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(20px);
+  background: var(--gold);
+}
+
+.toggle-label {
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ── Error en modal ── */
+.grimorio-error {
+  background: rgba(80,20,20,0.5);
+  border: 1px solid rgba(180,60,60,0.4);
+  border-radius: 3px;
+  padding: 0.65rem 0.9rem;
+  color: #e08080;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* ── Confirm text ── */
+.confirm-text {
+  font-style: italic;
+  color: rgba(232,215,190,0.85);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.confirm-name {
+  color: var(--text-gold);
+  font-style: normal;
+}
+
+/* ── Spinner ── */
+.spinner-rune {
+  font-family: var(--font-title);
+  animation: spinRune 1s linear infinite;
+  display: inline-block;
+  margin-right: 0.4rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .grimorio-page { padding: 1.2rem 1rem 2rem; }
+  .page-header { flex-direction: column; align-items: flex-start; }
+  .grimorio-btn-primary { width: 100%; justify-content: center; }
+}
