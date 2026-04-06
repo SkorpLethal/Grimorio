@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  AfterViewInit,
   ChangeDetectorRef,
   NgZone,
 } from '@angular/core';
@@ -13,15 +12,13 @@ import {
   VentaDTO,
 } from '../../../servicios/dashboard.service';
 
-declare const ApexCharts: any;
-
 @Component({
   selector: 'app-dashboard',
   imports: [CommonModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class Dashboard implements OnInit, AfterViewInit {
+export class Dashboard implements OnInit{
 
   resumen: DashBoardDTO = {
     totalVentas: 0,
@@ -36,9 +33,6 @@ export class Dashboard implements OnInit, AfterViewInit {
   cargando: boolean = true;
   errorMsg: string = '';
 
-  private chartInstance: any = null;
-  private datosCargados: boolean = false;
-
   constructor(
     private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef,
@@ -47,13 +41,6 @@ export class Dashboard implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.cargarDatos();
-  }
-
-  ngAfterViewInit(): void {
-    // Si los datos ya llegaron antes de que la vista esté lista, pintar el gráfico
-    if (this.datosCargados) {
-      this.renderGrafico();
-    }
   }
 
   cargarDatos(): void {
@@ -67,13 +54,8 @@ export class Dashboard implements OnInit, AfterViewInit {
             this.resumen = { ...res.value };
           }
           this.cargando = false;
-          this.datosCargados = true;
           this.cdr.detectChanges();
           // Dar un tick para que el DOM tenga el #grimorio-chart disponible
-          setTimeout(() => {
-            this.renderGrafico();
-            this.cdr.detectChanges();
-          }, 50);
         });
       },
       error: () => {
@@ -137,82 +119,6 @@ export class Dashboard implements OnInit, AfterViewInit {
         },
         error: () => {},
       });
-  }
-
-  renderGrafico(): void {
-    const el = document.getElementById('grimorio-chart');
-    if (!el) return;
-    if (typeof ApexCharts === 'undefined') return;
-
-    const semana = this.resumen.ventasUltimaSemana ?? [];
-    if (semana.length === 0) return;
-
-    const categorias = semana.map((v) => v.fecha);
-    const valores = semana.map((v) => v.total);
-
-    if (this.chartInstance) {
-      this.chartInstance.destroy();
-      this.chartInstance = null;
-    }
-
-    const options = {
-      series: [{ name: 'Ventas', data: valores }],
-      chart: {
-        type: 'area',
-        height: 260,
-        background: 'transparent',
-        toolbar: { show: false },
-        animations: { enabled: true, speed: 600 },
-      },
-      dataLabels: { enabled: false },
-      stroke: { curve: 'smooth', width: 2, colors: ['#c9a84c'] },
-      fill: {
-        type: 'gradient',
-        gradient: {
-          shadeIntensity: 1,
-          opacityFrom: 0.45,
-          opacityTo: 0.02,
-          stops: [0, 95, 100],
-          colorStops: [
-            { offset: 0,   color: '#c9a84c', opacity: 0.45 },
-            { offset: 100, color: '#6b3fa0', opacity: 0.02 },
-          ],
-        },
-      },
-      xaxis: {
-        categories: categorias,
-        labels: {
-          style: { colors: '#a090c0', fontFamily: 'Crimson Text, serif' },
-        },
-        axisBorder: { color: 'rgba(201,168,76,0.2)' },
-        axisTicks:  { color: 'rgba(201,168,76,0.2)' },
-      },
-      yaxis: {
-        labels: {
-          style: { colors: '#a090c0', fontFamily: 'Crimson Text, serif' },
-          formatter: (v: number) => Math.round(v).toString(),
-        },
-      },
-      grid: {
-        borderColor: 'rgba(201,168,76,0.1)',
-        strokeDashArray: 4,
-      },
-      markers: {
-        size: 5,
-        colors: ['#c9a84c'],
-        strokeColors: '#1a1530',
-        strokeWidth: 2,
-        hover: { size: 8 },
-      },
-      tooltip: {
-        theme: 'dark',
-        style: { fontFamily: 'Crimson Text, serif' },
-        y: { formatter: (v: number) => `${v} ventas` },
-      },
-    };
-
-    this.chartInstance = new ApexCharts(el, options);
-    this.chartInstance.render();
   }
 
   formatearPrecio(valor: number | undefined): string {

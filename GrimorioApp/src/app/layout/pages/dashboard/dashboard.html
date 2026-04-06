@@ -114,74 +114,12 @@
   </section>
 
   <!-- ══════════════════════════════════════
-       FILA PRINCIPAL: GRÁFICO + BAJO STOCK
+       FILA PRINCIPAL: ÚLTIMAS VENTAS + BAJO STOCK
   ══════════════════════════════════════ -->
   <section class="dash-row-main">
-
-    <!-- Gráfico ventas -->
-    <div class="dash-panel dash-panel--chart">
-      <div class="panel-header">
-        <div class="panel-title-wrap">
-          <span class="panel-rune" aria-hidden="true">ᚷ</span>
-          <h2 class="panel-title">Ventas · última semana</h2>
-        </div>
-        <div class="panel-ornament" aria-hidden="true">— ✦ —</div>
-      </div>
-      <div class="panel-body">
-        @if (resumen.ventasUltimaSemana && resumen.ventasUltimaSemana.length > 0) {
-          <div id="grimorio-chart"></div>
-        } @else {
-          <div class="no-data">
-            <span class="no-data-rune" aria-hidden="true">ᚺ</span>
-            <p>Sin datos de ventas para esta semana</p>
-          </div>
-        }
-      </div>
-    </div>
-
-    <!-- Cartas con poco stock -->
-    <div class="dash-panel dash-panel--stock">
-      <div class="panel-header">
-        <div class="panel-title-wrap">
-          <span class="panel-rune" aria-hidden="true">ᚾ</span>
-          <h2 class="panel-title">Alerta de stock</h2>
-        </div>
-        <div class="panel-ornament" aria-hidden="true">— ✦ —</div>
-      </div>
-      <div class="panel-body panel-body--scroll">
-        @if (cartasBajoStock.length > 0) {
-          <ul class="stock-list">
-            @for (carta of cartasBajoStock; track carta.idCarta) {
-              <li class="stock-item" [ngClass]="getRarezaClase(carta.stock)">
-                <div class="stock-item__name">
-                  <span class="stock-dot" aria-hidden="true"></span>
-                  {{ carta.nombre }}
-                </div>
-                <div class="stock-item__meta">
-                  <span class="stock-set">{{ carta.descripcionSet }}</span>
-                  <span class="stock-badge" [ngClass]="getRarezaClase(carta.stock)">
-                    {{ carta.stock === 0 ? 'Agotada' : carta.stock + ' uds.' }}
-                  </span>
-                </div>
-              </li>
-            }
-          </ul>
-        } @else {
-          <div class="no-data">
-            <span class="no-data-rune" aria-hidden="true">✦</span>
-            <p>Todo el stock está en orden</p>
-          </div>
-        }
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ══════════════════════════════════════
+      <!-- ══════════════════════════════════════
        FILA SECUNDARIA: ÚLTIMAS VENTAS
   ══════════════════════════════════════ -->
-  <section class="dash-row-secondary">
-
     <div class="dash-panel dash-panel--ventas-tabla">
       <div class="panel-header">
         <div class="panel-title-wrap">
@@ -226,6 +164,41 @@
           <div class="no-data">
             <span class="no-data-rune" aria-hidden="true">ᛃ</span>
             <p>No se encontraron ventas recientes</p>
+          </div>
+        }
+      </div>
+    </div>
+    <!-- Cartas con poco stock -->
+    <div class="dash-panel dash-panel--stock">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-rune" aria-hidden="true">ᚾ</span>
+          <h2 class="panel-title">Alerta de stock</h2>
+        </div>
+        <div class="panel-ornament" aria-hidden="true">— ✦ —</div>
+      </div>
+      <div class="panel-body panel-body--scroll">
+        @if (cartasBajoStock.length > 0) {
+          <ul class="stock-list">
+            @for (carta of cartasBajoStock; track carta.idCarta) {
+              <li class="stock-item" [ngClass]="getRarezaClase(carta.stock)">
+                <div class="stock-item__name">
+                  <span class="stock-dot" aria-hidden="true"></span>
+                  {{ carta.nombre }}
+                </div>
+                <div class="stock-item__meta">
+                  <span class="stock-set">{{ carta.descripcionSet }}</span>
+                  <span class="stock-badge" [ngClass]="getRarezaClase(carta.stock)">
+                    {{ carta.stock === 0 ? 'Agotada' : carta.stock + ' uds.' }}
+                  </span>
+                </div>
+              </li>
+            }
+          </ul>
+        } @else {
+          <div class="no-data">
+            <span class="no-data-rune" aria-hidden="true">✦</span>
+            <p>Todo el stock está en orden</p>
           </div>
         }
       </div>
