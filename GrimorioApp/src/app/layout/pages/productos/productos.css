@@ -592,7 +592,7 @@
    MODALES
 ══════════════════════════════════════ */
 .grimorio-modal-overlay {
-  position: fixed;
+  position: fixed !important;
   inset: 0;
   background: rgba(0,0,0,0.72);
   z-index: 200;
