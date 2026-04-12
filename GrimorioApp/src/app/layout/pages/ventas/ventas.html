@@ -1,0 +1,269 @@
+<div class="grimorio-page">
+
+  <!-- ── Partículas ── -->
+  <div class="page-particles" aria-hidden="true">
+    <span class="pp pp1"></span><span class="pp pp2"></span>
+    <span class="pp pp3"></span><span class="pp pp4"></span>
+  </div>
+
+  <!-- ── Cabecera ── -->
+  <header class="page-header">
+    <div class="page-header__left">
+      <div class="page-seal">
+        <span class="page-seal__glyph">⚡</span>
+        <div class="page-seal__ring"></div>
+      </div>
+      <div>
+        <h1 class="page-title">Nueva Venta</h1>
+        <p class="page-subtitle">Invoca cartas al carrito y cierra la transacción</p>
+      </div>
+    </div>
+    <!-- Indicador de items en carrito -->
+    <div class="cart-indicator" [class.cart-indicator--active]="carrito.length > 0">
+      <span class="cart-icon">🛒</span>
+      <span class="cart-count">{{ cantidadItems }}</span>
+      <span class="cart-label">items</span>
+    </div>
+  </header>
+
+  <div class="page-ornament-line" aria-hidden="true"><span>✦</span></div>
+
+  <!-- ── Error global ── -->
+  @if (errorMsg) {
+    <div class="page-error">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ errorMsg }}
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════════════
+       LAYOUT PRINCIPAL: catálogo + carrito
+  ══════════════════════════════════════════════ -->
+  <div class="venta-layout">
+
+    <!-- ════════════ PANEL IZQUIERDO — Catálogo ════════════ -->
+    <div class="catalogo-panel">
+      <div class="panel-header-bar">
+        <div class="panel-title-wrap">
+          <span class="panel-rune" aria-hidden="true">ᚷ</span>
+          <h2 class="panel-title">Catálogo de Cartas</h2>
+        </div>
+        <span class="panel-count">{{ cartasFiltradas.length }} disponibles</span>
+      </div>
+
+      <!-- Barra de búsqueda -->
+      <div class="search-bar">
+        <i class="bi bi-search search-icon"></i>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Buscar carta o set…"
+          [(ngModel)]="filtroBusqueda"
+          (input)="onBusquedaChange()"
+        />
+        @if (filtroBusqueda) {
+          <button class="search-clear" (click)="filtroBusqueda=''; onBusquedaChange()">
+            <i class="bi bi-x"></i>
+          </button>
+        }
+      </div>
+
+      <!-- Estado de carga -->
+      @if (cargando) {
+        <div class="panel-loading">
+          <div class="loading-rune">ᚨ</div>
+          <p>Invocando el catálogo…</p>
+        </div>
+      }
+
+      <!-- Grid de cartas -->
+      @if (!cargando) {
+        @if (cartasFiltradas.length === 0) {
+          <div class="no-data">
+            <span class="no-data-rune">ᚺ</span>
+            <p>No se encontraron cartas disponibles</p>
+          </div>
+        } @else {
+          <div class="cartas-grid">
+            @for (carta of cartasFiltradas; track carta.idCarta) {
+              <div class="carta-card"
+                   [class.carta-card--en-carrito]="enCarrito(carta.idCarta)"
+                   (click)="agregarAlCarrito(carta)">
+                <!-- Indicador de cantidad en carrito -->
+                @if (cantidadEnCarrito(carta.idCarta) > 0) {
+                  <div class="carta-qty-badge">{{ cantidadEnCarrito(carta.idCarta) }}</div>
+                }
+                <!-- Set badge -->
+                <div class="carta-set-badge">{{ carta.descripcionSet }}</div>
+                <!-- Nombre -->
+                <div class="carta-nombre">{{ carta.nombre }}</div>
+                <!-- Footer: stock + precio -->
+                <div class="carta-footer">
+                  <span class="carta-stock" [ngClass]="getStockClase(carta.stock)">
+                    @if (carta.stock === 0) { Agotada }
+                    @else if (carta.stock <= 2) { ⚠ {{ carta.stock }} ud. }
+                    @else { {{ carta.stock }} uds. }
+                  </span>
+                  <span class="carta-precio">{{ formatearPrecio(carta.precio) }}</span>
+                </div>
+                <!-- Shimmer al hover -->
+                <div class="carta-shimmer" aria-hidden="true"></div>
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+
+    <!-- ════════════ PANEL DERECHO — Carrito ════════════ -->
+    <div class="carrito-panel">
+
+      <!-- Cabecera carrito -->
+      <div class="panel-header-bar">
+        <div class="panel-title-wrap">
+          <span class="panel-rune" aria-hidden="true">ᚹ</span>
+          <h2 class="panel-title">Carrito</h2>
+        </div>
+        @if (carrito.length > 0) {
+          <button class="btn-limpiar" (click)="limpiarCarrito()">
+            <i class="bi bi-trash3"></i> Vaciar
+          </button>
+        }
+      </div>
+
+      <!-- Items del carrito -->
+      <div class="carrito-items">
+        @if (carrito.length === 0) {
+          <div class="carrito-vacio">
+            <span class="carrito-vacio__rune" aria-hidden="true">🃏</span>
+            <p>El carrito está vacío</p>
+            <p class="carrito-vacio__hint">Haz clic en una carta para añadirla</p>
+          </div>
+        } @else {
+          @for (item of carrito; track item.carta.idCarta) {
+            <div class="carrito-item">
+              <div class="carrito-item__info">
+                <div class="carrito-item__nombre">{{ item.carta.nombre }}</div>
+                <div class="carrito-item__set">{{ item.carta.descripcionSet }}</div>
+                <div class="carrito-item__precio-unit">{{ formatearPrecio(item.carta.precio) }} / ud.</div>
+              </div>
+              <div class="carrito-item__controls">
+                <button class="qty-btn" (click)="decrementar(item)">
+                  <i class="bi bi-dash"></i>
+                </button>
+                <span class="qty-value">{{ item.cantidad }}</span>
+                <button class="qty-btn" (click)="incrementar(item)"
+                        [disabled]="item.cantidad >= item.carta.stock">
+                  <i class="bi bi-plus"></i>
+                </button>
+              </div>
+              <div class="carrito-item__subtotal">
+                {{ formatearPrecio(item.subtotal) }}
+                <button class="item-delete" (click)="eliminarDelCarrito(item)" title="Eliminar">
+                  <i class="bi bi-x"></i>
+                </button>
+              </div>
+            </div>
+          }
+        }
+      </div>
+
+      <!-- Resumen y pago -->
+      <div class="carrito-resumen">
+
+        <!-- Separador -->
+        <div class="resumen-divider" aria-hidden="true"><span>✦</span></div>
+
+        <!-- Total -->
+        <div class="resumen-total">
+          <span class="resumen-total__label">Total</span>
+          <span class="resumen-total__valor">{{ formatearPrecio(totalCarrito) }}</span>
+        </div>
+
+        <!-- Tipo de pago -->
+        <div class="pago-section">
+          <label class="pago-label">Método de pago</label>
+          <div class="pago-opciones">
+            @for (tipo of tiposPago; track tipo) {
+              <button class="pago-btn"
+                      [class.pago-btn--activo]="tipoPago === tipo"
+                      (click)="tipoPago = tipo">
+                <span class="pago-btn__icon">
+                  {{ tipo === 'Efectivo' ? '💵' : '💳' }}
+                </span>
+                {{ tipo }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Error de venta -->
+        @if (errorVenta) {
+          <div class="venta-error">
+            <i class="bi bi-exclamation-triangle-fill me-1"></i>{{ errorVenta }}
+          </div>
+        }
+
+        <!-- Botón registrar -->
+        <button class="btn-registrar"
+                [disabled]="carrito.length === 0 || registrando"
+                (click)="registrarVenta()">
+          @if (registrando) {
+            <span class="spinner-rune">ᚷ</span>
+            Procesando…
+          } @else {
+            <i class="bi bi-check2-circle me-2"></i>
+            Registrar Venta
+          }
+          <div class="btn-shimmer"></div>
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════ MODAL — VENTA EXITOSA ════════════ -->
+  @if (ventaExitosa && ultimaVenta) {
+    <div class="grimorio-modal-overlay" (click)="cerrarModalExito()">
+      <div class="grimorio-modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-corner tl"></div>
+        <div class="modal-corner tr"></div>
+        <div class="modal-corner bl"></div>
+        <div class="modal-corner br"></div>
+
+        <!-- Icono de éxito animado -->
+        <div class="exito-icono" aria-hidden="true">
+          <div class="exito-ring exito-ring--outer"></div>
+          <div class="exito-ring exito-ring--inner"></div>
+          <span class="exito-glyph">✔</span>
+        </div>
+
+        <div class="exito-titulo">¡Venta Registrada!</div>
+        <div class="exito-subtitle">La transacción se ha completado con éxito</div>
+
+        <div class="exito-detalle">
+          <div class="exito-row">
+            <span class="exito-row__label">Nº Documento</span>
+            <span class="exito-row__valor doc-badge">{{ ultimaVenta.numeroDocumento }}</span>
+          </div>
+          <div class="exito-row">
+            <span class="exito-row__label">Tipo de pago</span>
+            <span class="exito-row__valor">{{ ultimaVenta.tipoPago }}</span>
+          </div>
+          <div class="exito-row exito-row--total">
+            <span class="exito-row__label">Total</span>
+            <span class="exito-row__valor exito-total">{{ formatearPrecio(ultimaVenta.total) }}</span>
+          </div>
+        </div>
+
+        <button class="btn-exito-cerrar" (click)="cerrarModalExito()">
+          <i class="bi bi-arrow-left me-2"></i>Nueva venta
+          <div class="btn-shimmer"></div>
+        </button>
+
+      </div>
+    </div>
+  }
+
+</div>

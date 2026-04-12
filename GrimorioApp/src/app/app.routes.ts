@@ -5,6 +5,7 @@ import { Register }  from './register/register';
 import { Dashboard } from './layout/pages/dashboard/dashboard';
 import { Usuarios }  from './layout/pages/usuarios/usuarios';
 import { Productos } from './layout/pages/productos/productos';
+import { Venta } from './layout/pages/ventas/ventas';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,8 +19,8 @@ export const routes: Routes = [
       { path: 'dashboard', component: Dashboard },
       { path: 'usuarios',  component: Usuarios },
       { path: 'productos', component: Productos },
+      { path: 'venta', component: Venta},
       // Páginas pendientes de implementar — se añadirán iterativamente
-      // { path: 'venta',          component: Venta },
       // { path: 'historial_venta',component: HistorialVenta },
       // { path: 'reportes',       component: Reportes },
       /*    { path: 'sets', component: SetsComponent },
