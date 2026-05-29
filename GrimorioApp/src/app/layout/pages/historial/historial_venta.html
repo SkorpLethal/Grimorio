@@ -1,0 +1,314 @@
+<div class="grimorio-page">
+
+  <!-- ── Partículas ── -->
+  <div class="page-particles" aria-hidden="true">
+    <span class="pp pp1"></span><span class="pp pp2"></span>
+    <span class="pp pp3"></span><span class="pp pp4"></span>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CABECERA
+  ══════════════════════════════════════ -->
+  <header class="page-header">
+    <div class="page-header__left">
+      <div class="page-seal">
+        <span class="page-seal__glyph">📜</span>
+        <div class="page-seal__ring"></div>
+      </div>
+      <div>
+        <h1 class="page-title">Historial de Ventas</h1>
+        <p class="page-subtitle">Registro de transacciones del Grimorio</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-ornament-line" aria-hidden="true"><span>✦</span></div>
+
+  <!-- ══════════════════════════════════════
+       PANEL DE BÚSQUEDA
+  ══════════════════════════════════════ -->
+  <div class="search-panel">
+
+    <!-- Selector de modo -->
+    <div class="mode-selector">
+      <button
+        class="mode-btn"
+        [class.mode-btn--active]="modoBusqueda === 'fecha'"
+        (click)="modoBusqueda = 'fecha'">
+        <i class="bi bi-calendar3 me-2"></i>Por fecha
+      </button>
+      <button
+        class="mode-btn"
+        [class.mode-btn--active]="modoBusqueda === 'numero'"
+        (click)="modoBusqueda = 'numero'">
+        <i class="bi bi-hash me-2"></i>Por número
+      </button>
+    </div>
+
+    <!-- Campos de búsqueda -->
+    <div class="search-fields">
+
+      @if (modoBusqueda === 'fecha') {
+        <div class="field-group">
+          <label class="field-label">Fecha inicio</label>
+          <div class="spell-input-wrap">
+            <input
+              type="date"
+              class="spell-input"
+              [(ngModel)]="fechaInicio"
+              name="fechaInicio"
+            />
+            <i class="bi bi-calendar-event input-icon"></i>
+          </div>
+        </div>
+
+        <div class="field-sep" aria-hidden="true">→</div>
+
+        <div class="field-group">
+          <label class="field-label">Fecha fin</label>
+          <div class="spell-input-wrap">
+            <input
+              type="date"
+              class="spell-input"
+              [(ngModel)]="fechaFin"
+              name="fechaFin"
+            />
+            <i class="bi bi-calendar-check input-icon"></i>
+          </div>
+        </div>
+      }
+
+      @if (modoBusqueda === 'numero') {
+        <div class="field-group field-group--wide">
+          <label class="field-label">Número de documento</label>
+          <div class="spell-input-wrap">
+            <input
+              type="text"
+              class="spell-input"
+              placeholder="Ej. 0042"
+              [(ngModel)]="numeroVenta"
+              name="numeroVenta"
+            />
+            <i class="bi bi-file-text input-icon"></i>
+          </div>
+        </div>
+      }
+
+      <div class="search-actions">
+        <button class="grimorio-btn-primary" (click)="buscar()" [disabled]="cargando">
+          @if (cargando) {
+            <span class="spinner-rune">ᚷ</span>
+          } @else {
+            <i class="bi bi-search me-2"></i>
+          }
+          Buscar
+          <div class="btn-shimmer"></div>
+        </button>
+        <button class="grimorio-btn-ghost" (click)="limpiar()" [disabled]="cargando">
+          <i class="bi bi-arrow-counterclockwise me-1"></i>
+          Limpiar
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Error -->
+    @if (errorMsg) {
+      <div class="page-error mt-3">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ errorMsg }}
+      </div>
+    }
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       RESUMEN DE RESULTADOS
+  ══════════════════════════════════════ -->
+  @if (buscado && !cargando && ventas.length > 0) {
+    <div class="summary-row">
+      <div class="summary-card">
+        <span class="summary-icon">⚡</span>
+        <div>
+          <p class="summary-label">Ventas encontradas</p>
+          <p class="summary-value">{{ ventas.length }}</p>
+        </div>
+      </div>
+      <div class="summary-card">
+        <span class="summary-icon">🃏</span>
+        <div>
+          <p class="summary-label">Unidades vendidas</p>
+          <p class="summary-value">{{ totalUnidades }}</p>
+        </div>
+      </div>
+      <div class="summary-card">
+        <span class="summary-icon">◈</span>
+        <div>
+          <p class="summary-label">Total recaudado</p>
+          <p class="summary-value">{{ formatearPrecio(totalGeneral) }}</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════
+       ESTADO: CARGANDO
+  ══════════════════════════════════════ -->
+  @if (cargando) {
+    <div class="page-loading">
+      <div class="loading-rune">ᚨ</div>
+      <p>Consultando el registro arcano…</p>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════
+       ESTADO: SIN BÚSQUEDA AÚN
+  ══════════════════════════════════════ -->
+  @if (!buscado && !cargando) {
+    <div class="idle-state">
+      <div class="idle-icon">📜</div>
+      <p class="idle-title">El registro aguarda tu consulta</p>
+      <p class="idle-sub">Selecciona un rango de fechas o introduce un número de documento y pulsa Buscar.</p>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════
+       ESTADO: SIN RESULTADOS
+  ══════════════════════════════════════ -->
+  @if (buscado && !cargando && ventas.length === 0 && !errorMsg) {
+    <div class="idle-state">
+      <div class="idle-icon">ᚺ</div>
+      <p class="idle-title">Sin registros para los filtros indicados</p>
+      <p class="idle-sub">Ajusta el rango de fechas o el número de documento e intenta de nuevo.</p>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════
+       TABLA DE RESULTADOS
+  ══════════════════════════════════════ -->
+  @if (buscado && !cargando && ventas.length > 0) {
+    <div class="grimorio-panel">
+
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-rune" aria-hidden="true">ᛁ</span>
+          <h2 class="panel-title">Transacciones</h2>
+        </div>
+        <span class="panel-ornament" aria-hidden="true">— ✦ —</span>
+      </div>
+
+      <div class="grimorio-table-wrap">
+        <table class="grimorio-table">
+          <thead>
+            <tr>
+              <th style="width:36px"></th>
+              <th>Nº Documento</th>
+              <th>Tipo de pago</th>
+              <th>Fecha</th>
+              <th>Líneas</th>
+              <th class="text-end">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (venta of ventas; track venta.idVenta) {
+
+              <!-- Fila principal -->
+              <tr
+                class="venta-row"
+                [class.venta-row--expanded]="estaExpandida(venta.idVenta)"
+                (click)="toggleDetalle(venta.idVenta)"
+              >
+                <td class="expand-cell">
+                  <span class="expand-icon" [class.expand-icon--open]="estaExpandida(venta.idVenta)">
+                    <i class="bi bi-chevron-right"></i>
+                  </span>
+                </td>
+                <td>
+                  <span class="doc-badge">{{ venta.numeroDocumento }}</span>
+                </td>
+                <td>
+                  <span class="pago-badge" [ngClass]="getTipoPagoClase(venta.tipoPago)">
+                    {{ venta.tipoPago }}
+                  </span>
+                </td>
+                <td class="fecha-cell">{{ venta.fechaRegistro }}</td>
+                <td class="lineas-cell">
+                  {{ (venta.detalleVenta?.length ?? 0) }}
+                  {{ (venta.detalleVenta?.length ?? 0) === 1 ? 'línea' : 'líneas' }}
+                </td>
+                <td class="text-end total-cell">{{ formatearPrecio(venta.total) }}</td>
+              </tr>
+
+              <!-- Fila expandible — detalle de la venta -->
+              @if (estaExpandida(venta.idVenta)) {
+                <tr class="detalle-row">
+                  <td colspan="6" class="detalle-cell">
+                    <div class="detalle-container">
+
+                      <div class="detalle-header">
+                        <span class="detalle-rune" aria-hidden="true">✦</span>
+                        <span class="detalle-titulo">Detalle · {{ venta.numeroDocumento }}</span>
+                        <span class="detalle-rune" aria-hidden="true">✦</span>
+                      </div>
+
+                      @if ((venta.detalleVenta?.length ?? 0) === 0) {
+                        <p class="detalle-empty">Esta venta no tiene líneas de detalle registradas.</p>
+                      }
+
+                      @if ((venta.detalleVenta?.length ?? 0) > 0) {
+                        <table class="detalle-table">
+                          <thead>
+                            <tr>
+                              <th>Carta</th>
+                              <th class="text-center">Cantidad</th>
+                              <th class="text-end">Precio unit.</th>
+                              <th class="text-end">Total línea</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @for (linea of venta.detalleVenta; track linea.idCarta) {
+                              <tr>
+                                <td class="carta-cell">
+                                  <span class="carta-dot" aria-hidden="true">◆</span>
+                                  {{ linea.descripcionCarta }}
+                                </td>
+                                <td class="text-center cantidad-cell">
+                                  <span class="cantidad-badge">{{ linea.cantidad }}</span>
+                                </td>
+                                <td class="text-end precio-cell">{{ formatearPrecio(linea.precio) }}</td>
+                                <td class="text-end total-linea-cell">{{ formatearPrecio(linea.total) }}</td>
+                              </tr>
+                            }
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td colspan="3" class="text-end subtotal-label">Total venta</td>
+                              <td class="text-end subtotal-value">{{ formatearPrecio(venta.total) }}</td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      }
+
+                    </div>
+                  </td>
+                </tr>
+              }
+
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  }
+
+  <!-- ── Footer ── -->
+  <footer class="dash-footer">
+    <div class="footer-ornament" aria-hidden="true">
+      <span>✦</span>
+      <span class="footer-runes">ᚨ ᚱ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ</span>
+      <span>✦</span>
+    </div>
+    <p>2026 &copy; El Grimorio · Magic: The Gathering</p>
+  </footer>
+
+</div>

@@ -6,6 +6,7 @@ import { Dashboard } from './layout/pages/dashboard/dashboard';
 import { Usuarios }  from './layout/pages/usuarios/usuarios';
 import { Productos } from './layout/pages/productos/productos';
 import { Venta } from './layout/pages/ventas/ventas';
+import { HistorialVenta } from './layout/pages/historial/historial_venta';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,6 +21,7 @@ export const routes: Routes = [
       { path: 'usuarios',  component: Usuarios },
       { path: 'productos', component: Productos },
       { path: 'venta', component: Venta},
+      { path: 'historial_venta', component: HistorialVenta}
       // Páginas pendientes de implementar — se añadirán iterativamente
       // { path: 'historial_venta',component: HistorialVenta },
       // { path: 'reportes',       component: Reportes },
