@@ -51,7 +51,6 @@
           </a>
         </li>
 
-        <!-- Venta: bi-bag-check-fill es uno de los más seguros en todas las versiones de BI -->
         <li class="gsb-item">
           <a routerLink="/pages/venta" routerLinkActive="gsb-link--active" class="gsb-link">
             <span class="gsb-link-icon"><i class="bi bi-bag-check-fill"></i></span>
@@ -90,6 +89,12 @@
       </div>
       <p class="gsb-footer-text">Magic: The Gathering</p>
     </div>
+
+    <div class="gsb-divider" aria-hidden="true"><span>✦</span></div>
+    <button class="gsb-logout-btn" (click)="cerrarSesion()">
+      <i class="bi bi-box-arrow-left"></i>
+      <span>Cerrar sesión</span>
+    </button>
 
   </nav>
 

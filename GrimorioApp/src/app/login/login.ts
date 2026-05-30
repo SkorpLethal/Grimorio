@@ -25,20 +25,25 @@ export class Login {
 
 public errorMensaje: string = '';
 
-  iniciarSesion(){
-    this.errorMensaje = '';
-    this.usuarioService.iniciarSesion(this.login).subscribe({
-      next : (res) => {
+iniciarSesion(){
+  this.errorMensaje = '';
+  this.usuarioService.iniciarSesion(this.login).subscribe({
+    next: (res) => {
       if(res.status){
+        // Guardar el token
+        localStorage.setItem('token', res.value.token);
+        // Guardar datos del usuario si los necesitas
+        localStorage.setItem('usuario', JSON.stringify(res.value));
+
         this.router.navigate(["pages/dashboard"])
       } else {
         this.errorMensaje = res.msg || 'Credenciales incorrectas';
       }
-    }, error : (err) => {
+    }, error: (err) => {
       this.errorMensaje = 'Error al conectar con el servidor';
       console.log(err)
-    }})
-  }
-
+    }
+  })
+}
 }
 

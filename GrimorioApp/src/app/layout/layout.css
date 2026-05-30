@@ -449,3 +449,34 @@ html, body {
   .grimorio-topbar { display: none !important; }
   .gsb-close       { display: none !important; }
 }
+
+/* ── Botón cerrar sesión ── */
+.gsb-logout-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  padding: 0.55rem 1rem;
+  background: transparent;
+  border: 1px solid rgba(224, 80, 80, 0.25);
+  border-radius: 3px;
+  color: rgba(224, 80, 80, 0.6);
+  font-family: var(--font-title);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+
+.gsb-logout-btn:hover {
+  background: rgba(224, 80, 80, 0.1);
+  border-color: rgba(224, 80, 80, 0.5);
+  color: #e08080;
+}
+
+.gsb-logout-btn i {
+  font-size: 0.85rem;
+}

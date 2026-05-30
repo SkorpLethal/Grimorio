@@ -76,9 +76,9 @@ export class Usuarios implements OnInit {
           this.cdr.detectChanges();
         });
       },
-      error: () => {
+      error: (res) => {
         this.ngZone.run(() => {
-          this.errorMsg = 'Error al conectar con el servidor.';
+          this.errorMsg = res.message;
           this.cargando = false;
           this.cdr.detectChanges();
         });

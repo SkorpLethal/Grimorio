@@ -1,0 +1,311 @@
+<div class="grimorio-page">
+
+  <!-- ── Partículas ── -->
+  <div class="page-particles" aria-hidden="true">
+    <span class="pp pp1"></span><span class="pp pp2"></span>
+    <span class="pp pp3"></span><span class="pp pp4"></span>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CABECERA
+  ══════════════════════════════════════ -->
+  <header class="page-header">
+    <div class="page-header__left">
+      <div class="page-seal">
+        <span class="page-seal__glyph">📊</span>
+        <div class="page-seal__ring"></div>
+      </div>
+      <div>
+        <h1 class="page-title">Reportes</h1>
+        <p class="page-subtitle">Análisis de ventas del Grimorio</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-ornament-line" aria-hidden="true"><span>✦</span></div>
+
+  <!-- ══════════════════════════════════════
+       PANEL DE FILTROS
+  ══════════════════════════════════════ -->
+  <div class="search-panel">
+    <div class="search-fields">
+
+      <div class="field-group">
+        <label class="field-label">Fecha inicio</label>
+        <div class="spell-input-wrap">
+          <input
+            type="date"
+            class="spell-input"
+            [(ngModel)]="fechaInicio"
+            name="fechaInicio"
+          />
+          <i class="bi bi-calendar-event input-icon"></i>
+        </div>
+      </div>
+
+      <div class="field-sep" aria-hidden="true">→</div>
+
+      <div class="field-group">
+        <label class="field-label">Fecha fin</label>
+        <div class="spell-input-wrap">
+          <input
+            type="date"
+            class="spell-input"
+            [(ngModel)]="fechaFin"
+            name="fechaFin"
+          />
+          <i class="bi bi-calendar-check input-icon"></i>
+        </div>
+      </div>
+
+      <div class="search-actions">
+        <button class="grimorio-btn-primary" (click)="buscar()" [disabled]="cargando">
+          @if (cargando) {
+            <span class="spinner-rune">ᚷ</span>
+          } @else {
+            <i class="bi bi-bar-chart-fill me-2"></i>
+          }
+          Generar Reporte
+          <div class="btn-shimmer"></div>
+        </button>
+        <button class="grimorio-btn-ghost" (click)="limpiar()" [disabled]="cargando">
+          <i class="bi bi-arrow-counterclockwise me-1"></i>
+          Limpiar
+        </button>
+      </div>
+
+    </div>
+
+    @if (errorMsg) {
+      <div class="page-error mt-3">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ errorMsg }}
+      </div>
+    }
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CARGANDO
+  ══════════════════════════════════════ -->
+  @if (cargando) {
+    <div class="page-loading">
+      <div class="loading-rune">ᚨ</div>
+      <p>Consultando los registros arcanos…</p>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════
+       ESTADO IDLE
+  ══════════════════════════════════════ -->
+  @if (!buscado && !cargando) {
+    <div class="idle-state">
+      <div class="idle-icon">📊</div>
+      <p class="idle-title">El oráculo aguarda tu consulta</p>
+      <p class="idle-sub">Selecciona un rango de fechas y pulsa Generar Reporte para ver el análisis.</p>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════
+       SIN RESULTADOS
+  ══════════════════════════════════════ -->
+  @if (buscado && !cargando && lineas.length === 0 && !errorMsg) {
+    <div class="idle-state">
+      <div class="idle-icon">ᚺ</div>
+      <p class="idle-title">Sin datos para el período seleccionado</p>
+      <p class="idle-sub">No hay ventas registradas en ese rango de fechas. Ajusta el período e inténtalo de nuevo.</p>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════
+       RESULTADOS
+  ══════════════════════════════════════ -->
+  @if (buscado && !cargando && lineas.length > 0) {
+
+    <!-- ── KPIs ── -->
+    <section class="kpi-row" aria-label="Indicadores clave">
+
+      <div class="kpi-card">
+        <div class="kpi-card__corner tl"></div>
+        <div class="kpi-card__corner br"></div>
+        <div class="kpi-icon">⚡</div>
+        <div class="kpi-body">
+          <p class="kpi-label">Ventas realizadas</p>
+          <p class="kpi-value">{{ ventasUnicas }}</p>
+          <p class="kpi-sub">transacciones</p>
+        </div>
+        <div class="kpi-glow"></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card__corner tl"></div>
+        <div class="kpi-card__corner br"></div>
+        <div class="kpi-icon">🃏</div>
+        <div class="kpi-body">
+          <p class="kpi-label">Unidades vendidas</p>
+          <p class="kpi-value">{{ totalUnidades }}</p>
+          <p class="kpi-sub">cartas</p>
+        </div>
+        <div class="kpi-glow"></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card__corner tl"></div>
+        <div class="kpi-card__corner br"></div>
+        <div class="kpi-icon">◈</div>
+        <div class="kpi-body">
+          <p class="kpi-label">Total recaudado</p>
+          <p class="kpi-value">{{ formatearPrecio(totalIngresos) }}</p>
+          <p class="kpi-sub">en el período</p>
+        </div>
+        <div class="kpi-glow"></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card__corner tl"></div>
+        <div class="kpi-card__corner br"></div>
+        <div class="kpi-icon">📋</div>
+        <div class="kpi-body">
+          <p class="kpi-label">Líneas de detalle</p>
+          <p class="kpi-value">{{ lineas.length }}</p>
+          <p class="kpi-sub">registros</p>
+        </div>
+        <div class="kpi-glow"></div>
+      </div>
+
+    </section>
+
+    <!-- ── Fila análisis: top cartas + ingresos por pago ── -->
+    <div class="analysis-row">
+
+      <!-- Top 5 cartas más vendidas -->
+      <div class="grimorio-panel panel-top-cartas">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <span class="panel-rune" aria-hidden="true">ᛁ</span>
+            <h2 class="panel-title">Top 5 cartas más vendidas</h2>
+          </div>
+          <div class="panel-ornament" aria-hidden="true">— ✦ —</div>
+        </div>
+        <div class="panel-body">
+          @for (item of cartasMasVendidas; track item.carta; let i = $index) {
+            <div class="top-item">
+              <div class="top-item__rank">
+                <span class="rank-badge" [ngClass]="getRankClase(i)">{{ i + 1 }}</span>
+              </div>
+              <div class="top-item__nombre">{{ item.carta }}</div>
+              <div class="top-item__bar-wrap">
+                <div
+                  class="top-item__bar"
+                  [style.width.%]="getBarWidth(item.unidades)"
+                ></div>
+              </div>
+              <div class="top-item__uds">{{ item.unidades }} uds.</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Ingresos por método de pago -->
+      <div class="grimorio-panel panel-pago">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <span class="panel-rune" aria-hidden="true">ᛃ</span>
+            <h2 class="panel-title">Ingresos por método de pago</h2>
+          </div>
+          <div class="panel-ornament" aria-hidden="true">— ✦ —</div>
+        </div>
+        <div class="panel-body panel-body--pago">
+          @for (item of ingresosPorPago; track item.tipo) {
+            <div class="pago-item">
+              <div class="pago-item__header">
+                <span class="pago-badge" [ngClass]="getTipoPagoClase(item.tipo)">
+                  {{ item.tipo === 'Efectivo' ? '💵' : '💳' }} {{ item.tipo }}
+                </span>
+                <span class="pago-item__total">{{ formatearPrecio(item.total) }}</span>
+              </div>
+              <div class="pago-bar-wrap">
+                <div
+                  class="pago-bar"
+                  [ngClass]="getTipoPagoClase(item.tipo)"
+                  [style.width.%]="getPagoBarWidth(item.total)"
+                ></div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Tabla detalle completa ── -->
+    <div class="grimorio-panel panel-tabla">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-rune" aria-hidden="true">ᚾ</span>
+          <h2 class="panel-title">Detalle de ventas</h2>
+        </div>
+        <span class="panel-ornament" aria-hidden="true">— ✦ —</span>
+      </div>
+
+      <div class="grimorio-table-wrap">
+        <table class="grimorio-table">
+          <thead>
+            <tr>
+              <th>Nº Documento</th>
+              <th>Tipo pago</th>
+              <th>Fecha</th>
+              <th>Carta</th>
+              <th class="text-center">Cantidad</th>
+              <th class="text-end">Precio unit.</th>
+              <th class="text-end">Total línea</th>
+              <th class="text-end">Total venta</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (linea of lineas; track $index) {
+              <tr>
+                <td><span class="doc-badge">{{ linea.numeroDocumento }}</span></td>
+                <td>
+                  <span class="pago-badge" [ngClass]="getTipoPagoClase(linea.tipoPago)">
+                    {{ linea.tipoPago }}
+                  </span>
+                </td>
+                <td class="fecha-cell">{{ linea.fechaRegistro }}</td>
+                <td class="carta-cell">
+                  <span class="carta-dot" aria-hidden="true">◆</span>
+                  {{ linea.carta }}
+                </td>
+                <td class="text-center">
+                  <span class="cantidad-badge">{{ linea.cantidad }}</span>
+                </td>
+                <td class="text-end precio-cell">{{ formatearPrecio(linea.precio) }}</td>
+                <td class="text-end total-linea-cell">{{ formatearPrecio(linea.total) }}</td>
+                <td class="text-end total-venta-cell">{{ formatearPrecio(linea.totalVenta) }}</td>
+              </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" class="text-end foot-label">Totales del período</td>
+              <td class="text-center foot-value">{{ totalUnidades }}</td>
+              <td></td>
+              <td class="text-end foot-value">{{ formatearPrecio(totalIngresos) }}</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+  }
+
+  <!-- ── Footer ── -->
+  <footer class="dash-footer">
+    <div class="footer-ornament" aria-hidden="true">
+      <span>✦</span>
+      <span class="footer-runes">ᚨ ᚱ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ</span>
+      <span>✦</span>
+    </div>
+    <p>2026 &copy; El Grimorio · Magic: The Gathering</p>
+  </footer>
+
+</div>

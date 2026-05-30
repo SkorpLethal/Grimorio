@@ -7,6 +7,7 @@ import { Usuarios }  from './layout/pages/usuarios/usuarios';
 import { Productos } from './layout/pages/productos/productos';
 import { Venta } from './layout/pages/ventas/ventas';
 import { HistorialVenta } from './layout/pages/historial/historial_venta';
+import { Reportes } from './layout/pages/reportes/reportes';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,18 +21,9 @@ export const routes: Routes = [
       { path: 'dashboard', component: Dashboard },
       { path: 'usuarios',  component: Usuarios },
       { path: 'productos', component: Productos },
-      { path: 'venta', component: Venta},
-      { path: 'historial_venta', component: HistorialVenta}
-      // Páginas pendientes de implementar — se añadirán iterativamente
-      // { path: 'historial_venta',component: HistorialVenta },
-      // { path: 'reportes',       component: Reportes },
-      /*    { path: 'sets', component: SetsComponent },
-            { path: 'set/:idSet', component: CartasComponent },
-            { path: 'set/:idSet/carta/:idCarta', component: CartaComponent },
-            { path: 'set/:idSet/carta/nueva', component: CartaComponent },
-            { path: 'ventas', component: VentasComponent },
-            { path: 'historial', component: HistorialComponent },
-            { path: 'reporte', component: ReporteComponent }*/
+      { path: 'venta', component: Venta },
+      { path: 'historial_venta', component: HistorialVenta },
+      { path: 'reportes', component: Reportes }
     ],
   },
   { path: '**', redirectTo: 'login' },

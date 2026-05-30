@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -11,6 +11,10 @@ export class Layout implements OnInit, OnDestroy {
 
   private sidebar: HTMLElement | null = null;
   private overlay: HTMLElement | null = null;
+
+  constructor(
+    private router : Router
+  ) {}
 
   ngOnInit(): void {
     this.sidebar = document.getElementById('grimorio-sidebar');
@@ -47,5 +51,11 @@ export class Layout implements OnInit, OnDestroy {
     if (target.closest('.gsb-link') && window.innerWidth < 1200) {
       this.closeSidebar();
     }
+  }
+
+  cerrarSesion(): void{
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    this.router.navigate(['/login']);
   }
 }
