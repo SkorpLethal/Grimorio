@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 using AutoMapper;
 using Grimorio.BLL.Servicios.Contrato;
@@ -15,13 +15,15 @@ namespace Grimorio.BLL.Servicios
 {
     public class UsuarioService : IUsuarioService
     {
+        private readonly IConfiguration _configuracion;
         private readonly IGenericRepository<Usuario> _usuarioRepositorio;
         private readonly IMapper _mapper;
 
-        public UsuarioService(IGenericRepository<Usuario> usuarioRepositorio, IMapper mapper)
+        public UsuarioService(IGenericRepository<Usuario> usuarioRepositorio, IMapper mapper, IConfiguration configuracion)
         {
             _usuarioRepositorio = usuarioRepositorio;
             _mapper = mapper;
+            _configuracion = configuracion;
         }
 
         public async Task<List<UsuarioDTO>> Lista()
@@ -53,9 +55,13 @@ namespace Grimorio.BLL.Servicios
 
                 Usuario devolverUsuario = queryUsuario.Include(rol => rol.IdRolNavigation).First();
 
-                return _mapper.Map<SesionDTO>(devolverUsuario);
+                var sesion = _mapper.Map<SesionDTO>(devolverUsuario);
+                sesion.Token = GenerarToken(devolverUsuario);
+                return sesion;
+
             }
-            catch {
+            catch
+            {
                 throw;
             }
         }
@@ -64,7 +70,7 @@ namespace Grimorio.BLL.Servicios
         {
             try
             {
-                var usuarioCreado = await _usuarioRepositorio.Crear(_mapper.Map<Usuario> (modelo));
+                var usuarioCreado = await _usuarioRepositorio.Crear(_mapper.Map<Usuario>(modelo));
 
                 if (usuarioCreado.IdUsuario == 0)
                     throw new TaskCanceledException("No se puedo crear.");
@@ -130,5 +136,30 @@ namespace Grimorio.BLL.Servicios
                 throw;
             }
         }
+        private string GenerarToken(Usuario usuario)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuracion["Jwt:Key"]!));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
+                new Claim(ClaimTypes.Name,           usuario.NombreCompleto ?? ""),
+                new Claim(ClaimTypes.Email,          usuario.Correo ?? ""),
+                new Claim(ClaimTypes.Role,           usuario.IdRolNavigation?.Nombre ?? "")
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _configuracion["Jwt:Issuer"],
+                audience: _configuracion["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(
+                                        int.Parse(_configuracion["Jwt:ExpiresInMinutes"]!)),
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
 }
+

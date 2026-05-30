@@ -1,12 +1,14 @@
-﻿using Grimorio.BLL.Servicios.Contrato;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Grimorio.API.Utilidad;
+using Grimorio.BLL.Servicios.Contrato;
 using Grimorio.BLL.Servicios.Contrato;
 using Grimorio.DTO;
-using Grimorio.API.Utilidad;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Grimorio.API.Controllers
 {
+    
     [Route("api/ventas")]
     [ApiController]
     public class VentaController : ControllerBase
@@ -17,7 +19,7 @@ namespace Grimorio.API.Controllers
         {
             _ventaServicio = ventaServicio;
         }
-
+        [Authorize(Roles = "Administrador, Supervisor, Empleado")]
         [HttpPost]
         [Route("Registrar")]
         public async Task<IActionResult> Registrar([FromBody] VentaDTO venta)
@@ -37,7 +39,7 @@ namespace Grimorio.API.Controllers
             }
             return Ok(response);
         }
-
+        [Authorize(Roles = "Administrador, Supervisor, Empleado")]
         [HttpGet]
         [Route("Historial")]
         public async Task<IActionResult> Historial(string buscarPor, string? numeroVenta, string? fechaInicio, string? fechaFin)
@@ -60,7 +62,7 @@ namespace Grimorio.API.Controllers
             }
             return Ok(response);
         }
-
+        [Authorize(Roles = "Administrador, Supervisor")]
         [HttpGet]
         [Route("Reporte")]
         public async Task<IActionResult> Reporte(string? fechaInicio, string? fechaFin)

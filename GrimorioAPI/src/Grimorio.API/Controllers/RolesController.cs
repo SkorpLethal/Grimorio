@@ -1,10 +1,12 @@
-﻿using Grimorio.BLL.Servicios.Contrato;
+﻿using Grimorio.API.Utilidad;
+using Grimorio.BLL.Servicios.Contrato;
 using Grimorio.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Grimorio.API.Utilidad;
 
 namespace Grimorio.API.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     [Route("api/roles")]
     [ApiController]
     public class RolesController : ControllerBase

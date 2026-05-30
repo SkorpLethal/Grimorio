@@ -12,7 +12,7 @@ namespace Grimorio.DTO
 
         public string? TipoPago { get; set; }
 
-        public DateTime? FechaRegistro { get; set; }
+        public string? FechaRegistro { get; set; }
 
         public decimal? TotalVenta {  get; set; }
 

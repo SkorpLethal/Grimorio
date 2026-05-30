@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Grimorio.BLL.Servicios.Contrato;
 using Grimorio.DTO;
 using Grimorio.API.Utilidad;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Grimorio.API.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     [Route("api/usuarios")]
     [ApiController]
     public class UsuarioController : ControllerBase
@@ -37,6 +39,7 @@ namespace Grimorio.API.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("IniciarSesion")]
         public async Task<IActionResult> IniciarSesion([FromBody] LoginDTO login)
@@ -57,6 +60,7 @@ namespace Grimorio.API.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("Guardar")]
         public async Task<IActionResult> Guardar([FromBody] UsuarioDTO usuario)

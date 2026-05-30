@@ -16,5 +16,7 @@ namespace Grimorio.DTO
 
         public string? DescripcionRol { get; set; }
 
+        public string? Token {  get; set; }
+
     }
 }
